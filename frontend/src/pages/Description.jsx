@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Usernavbar from "../components/Usernavbar";
 import CardCarousel from "../components/CardCarousel ";
 import debtsol from "../assets/images/Imgfive.png";
 import Hishweta from "../components/Hishweta";
 import { useLocation, useNavigate } from "react-router-dom";
+import Aos from "aos";
+
 const Description = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({
+    title1: "",
+    text1: "",
+    title2: "",
+    text2: "",
+  });
+
+  const handleShowModal = (subItem) => {
+    setModalData(subItem);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => setShowModal(false);
 
   const {
     totalIncome,
@@ -46,17 +63,20 @@ const Description = () => {
     },
     {
       title: "2 Debt Management Plan",
-      text: "Our lawyers will negotiate with all your creditors a structured repayment plan that consolidates all unsecured debts into a single monthly payment. Manage payments on your behalf to ensure consistent and timely repayment, so that your credit score will start to increase as you stay on the plan.",
+      text: "Our lawyers will negotiate with all your creditors a structured repayment plan that consolidates all unsecured debts into a single monthly payment.",
+      imgSrc: debtsol,
+      imgAlt: "Debt Solutions",
     },
     {
       title: "3 Harassment Solutions",
-      text: "We’ll handle all calls for you, prevent creditors from contacting your friends and family, stop unannounced visits, and provide complete legal support, including responding to notices and attending hearings.",
+      text: "We’ll handle all calls for you, prevent creditors from contacting your friends and family.",
+      imgSrc: debtsol,
+      imgAlt: "Debt Solutions",
       subTitles: [
         {
           title1: "Shield from Creditor Calls",
           text1: "We protect you from aggressive creditor calls.",
-          additionalData1:
-            "You will receive legal support to handle all calls.",
+          additionalData1: "Legal support to handle all calls.",
           title2: "Full Legal Coverage",
           text2: "Comprehensive legal protection against harassment.",
           additionalData2: "Includes representation in court if necessary.",
@@ -65,49 +85,64 @@ const Description = () => {
     },
     {
       title: "Our Fees",
-      text: "We believe in flexible pricing based on your affordability. Instead of a fixed fee, we charge the equivalent of your first two months' EMIs for establishing the DMP with all your creditors, handled by our team of lawyers. This fee can be spread out over the course of your DMP.",
+      text: "We believe in flexible pricing based on your affordability. We charge the equivalent of your first two months' EMIs.",
+      imgSrc: debtsol,
+      imgAlt: "Debt Solutions",
     },
   ];
+
+  useEffect(() => {
+    Aos.init({ duration: 1000 });
+  }, []);
 
   return (
     <>
       <Usernavbar />
       <div className="container p-2 py-4">
-        {/* <div className="bg">
-          <div className="herotext">
-            <h1>Hi! I'm Shweta</h1>
-            <p>Your specialist lawyer in harassment and debt matters</p>
-          </div>
-          <div className="image-container">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              alt="Illustration representing progress"
-            />
-          </div>
-        </div> */}
-       <Hishweta
+        <Hishweta
           heading={"Hi! I'm Shweta"}
           paragraph={"Your specialist lawyer in harassment and debt matters"}
         />
         <div className="maindiv">
           <h1 style={headerStyle}>Harassment and Debt Solutions</h1>
 
-          <div className="container py-4 ">
+          <div className="container py-4">
             <div className="row justify-content-center">
               {cardContent.map((item, index) => (
-                <div key={index} className="col-12 mb-4 position-relative">
-                  <div className="shadow-lg border-0 rounded-lg overflow-hidden bg-light">
-                    <div className="p-4 text-center">
+                <div
+                  key={index}
+                  className="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center"
+                  data-aos="fade-up"
+                >
+                  <div
+                    className="shadow-lg border-0 rounded-lg bg-white"
+                    style={{
+                      background: "#fff", // Card background white
+                      maxWidth: "320px",
+                      borderRadius: "15px",
+                      padding: "20px",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a card-like appearance
+                      transition: "transform 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.05)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                    }}
+                  >
+                    <div className="text-center p-3">
                       <h2
                         className="mb-3"
                         style={{
-                          color: "#d9534f",
-                          fontSize: "28px",
+                          color: "#ff4855", // Heading color red
+                          fontSize: "24px",
                           fontWeight: "bold",
                         }}
                       >
                         {item.title}
                       </h2>
+
                       <div className="d-flex flex-column align-items-center mb-4">
                         {item.imgSrc && (
                           <img
@@ -115,122 +150,202 @@ const Description = () => {
                             alt={item.imgAlt}
                             className="img-fluid mb-3"
                             style={{
-                              width: "120px",
-                              height: "120px",
+                              width: "100px",
+                              height: "100px",
                               objectFit: "cover",
-                              // borderRadius: "50%",
-                              // boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+                              borderRadius: "50%",
+                              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                             }}
                           />
                         )}
                         <p
-                          className="text-muted"
+                          className="text-dark text-left" // Normal text style
                           style={{
-                            textAlign: "left",
                             fontSize: "16px",
-                            fontWeight: "bold",
-                            maxWidth: "90%",
+                            fontWeight: "normal", // Normal font weight for text
                           }}
                         >
                           {item.text}
                         </p>
                       </div>
-                      {item.subTitles &&
-  item.subTitles.map((subItem, subIndex) => (
-    <div key={subIndex} className="mb-3">
-      <div className="d-flex justify-content-between mb-3 flex-column flex-md-row">
-        <div
-          style={{ flex: 1, marginRight: "10px" }}
-          className="text-center text-md-right"
-        >
-          <h4
-            style={{
-              color: "#d9534f",
-              fontSize: "22px",
-              fontWeight: "bold",
-            }}
-          >
-            {subItem.title1}
-          </h4>
-          <p
-            className="text-muted text-center text-md-left"
-            style={{
-              fontSize: "14px",
-              fontWeight: "bold",
-            }}
-          >
-            {subItem.text1}
-          </p>
-          <p
-            className="text-muted text-center text-md-left"
-            style={{
-              fontSize: "12px",
-              fontWeight: "bold",
-            }}
-          >
-            {subItem.additionalData1}
-          </p>
-        </div>
-        <div
-          style={{ flex: 1, marginLeft: "10px" }}
-          className="text-center text-md-left"
-        >
-          <h4
-            style={{
-              color: "#d9534f",
-              fontSize: "22px",
-              fontWeight: "bold",
-            }}
-          >
-            {subItem.title2}
-          </h4>
-          <p
-            className="text-muted text-center text-md-left"
-            style={{
-              fontSize: "14px",
-              fontWeight: "bold",
-            }}
-          >
-            {subItem.text2}
-          </p>
-          <p
-            className="text-muted text-center text-md-left"
-            style={{
-              fontSize: "12px",
-              fontWeight: "bold",
-            }}
-          >
-            {subItem.additionalData2}
-          </p>
-        </div>
-      </div>
-    </div>
-  ))}
 
+                      {item.subTitles && (
+                        <div className="mb-3">
+                          <button
+                            className="btn btn-outline-danger" // Keeping button consistent with red theme
+                            onClick={() => handleShowModal(item.subTitles[0])}
+                          >
+                            Read More
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  {index < cardContent.length - 1 && (
-                    <div
-                      className="timeline-connector"
-                      style={{
-                        position: "absolute",
-                        left: "50%",
-                        top: "100%",
-                        width: "4px",
-                        height: "40px",
-                        backgroundColor: "#ccc",
-                        transform: "translateX(-50%)",
-                      }}
-                    />
-                  )}
                 </div>
               ))}
             </div>
+
+            {/* Modal */}
+            {showModal && (
+  <div
+    className="modal show"
+    tabIndex="-1"
+    style={{
+      display: "block",
+      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
+      animation: "fadeIn 0.3s ease-in-out", // Subtle fade-in animation
+    }}
+    role="dialog"
+  >
+    <div
+      className="modal-dialog modal-dialog-centered"
+      style={{
+        maxWidth: "600px",
+        animation: "scaleUp 0.3s ease-in-out", // Slight scale-up effect on modal appearance
+      }}
+    >
+      <div
+        className="modal-content"
+        style={{
+          borderRadius: "20px", // Softer rounded corners
+          border: "2px solid red", // Red border for emphasis
+          background: "white", // White background for modal content
+          color: "red", // Primary text color
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)", // Soft shadow for the modal
+        }}
+      >
+        <div
+          className="modal-header"
+          style={{
+            borderBottom: "1px solid red", // Red accent divider for header
+            paddingBottom: "15px",
+            display: "flex", // Use flex to space out title and close button
+            justifyContent: "space-between", // Space between title and close button
+            alignItems: "center", // Center alignment vertically
+          }}
+        >
+          <h5
+            className="modal-title text-center"
+            style={{
+              color: "red", // Title color
+              fontSize: "24px", // Title font size
+              fontWeight: "800", // Increased font weight
+              textTransform: "uppercase", // Uppercase for impact
+              letterSpacing: "1px", // Add letter spacing
+              padding: "20px 0", // Padding for spacing
+            }}
+          >
+            {modalData.title1} & {modalData.title2}
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Close"
+            onClick={handleCloseModal}
+            style={{
+              background: "transparent",
+              border: "none",
+              fontSize: "24px",
+              color: "red", // Close button color
+            }}
+          >
+            &times;
+          </button>
+        </div>
+
+        <div className="modal-body" style={{ padding: "20px" }}>
+          <h5
+            className="text-center" // Center subtitle
+            style={{
+              color: "red", // Subtitle color
+              fontSize: "20px", // Subtitle font size
+              fontWeight: "600", // Increased font weight
+              marginBottom: "10px",
+              textTransform: "uppercase", // Uppercase for emphasis
+              letterSpacing: "0.5px",
+            }}
+          >
+            {modalData.title1}
+          </h5>
+          <p
+            className="text-center" // Center text
+            style={{
+              color: "red", // Text color for contrast
+              fontSize: "16px",
+              lineHeight: "1.6", // Improved line spacing for readability
+              margin: "10px 0", // Vertical margin for spacing
+            }}
+          >
+            {modalData.text1}
+          </p>
+
+          <h5
+            className="text-center"
+            style={{
+              color: "red", // Subtitle color
+              fontSize: "20px", // Subtitle font size
+              fontWeight: "600", // Increased font weight
+              marginTop: "20px",
+              textTransform: "uppercase", // Uppercase for emphasis
+              letterSpacing: "0.5px",
+            }}
+          >
+            {modalData.title2}
+          </h5>
+          <p
+            className="text-center"
+            style={{
+              color: "red", // Text color for contrast
+              fontSize: "16px",
+              lineHeight: "1.6", // Line spacing for readability
+              margin: "10px 0", // Vertical margin for spacing
+            }}
+          >
+            {modalData.text2}
+          </p>
+        </div>
+
+        <div
+          className="modal-footer"
+          style={{
+            borderTop: "1px solid red", // Red accent divider for footer
+            display: "flex",
+            justifyContent: "center",
+            padding: "15px 0", // Padding for spacing
+          }}
+        >
+          <button
+            type="button"
+            className="btn"
+            onClick={handleCloseModal}
+            style={{
+              backgroundColor: "red", // Button background color
+              color: "white", // Button text color
+              borderRadius: "30px",
+              padding: "12px 30px", // More padding for button
+              fontWeight: "bold",
+              border: "none",
+              fontSize: "16px", // Button text size
+              transition: "background 0.3s ease", // Smooth transition for hover
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = "tomato") // Change color on hover
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = "red") // Revert on mouse leave
+            }
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
           </div>
 
-          {/* cards */}
           <CardCarousel unsecured={totalDebts} />
-          {/* <button onClick={handleNavigateToPayment}>Go to Payment</button> */}
         </div>
       </div>
     </>

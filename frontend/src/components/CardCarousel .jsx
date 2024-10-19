@@ -3,8 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
 
-
-
 const Card = ({ title, emi, fee, oneTimeFee, total, unsecured }) => {
   const calculatedEMI = unsecured
     ? parseFloat((unsecured / title).toFixed(2)) // If unsecured, calculate based on unsecured value and title
@@ -161,6 +159,18 @@ const CardCarousel = ({ unsecured }) => {
       style={{ margin: "2rem 0" }}
     >
       <div className="carousel-inner">
+        <h1
+          className=""
+          style={{
+            marginBottom: "20px",
+            textAlign: "center",
+            fontWeight: "bolder",
+            color: "red",
+            textTransform: "capitalize",
+          }}
+        >
+          select your affordable plan
+        </h1>
         {cards.reduce((acc, card, index) => {
           if (index % 2 === 0) {
             acc.push(
