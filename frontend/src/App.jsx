@@ -33,12 +33,14 @@ import Encouragement from "./pages/Encouragement";
 import Hold from "./pages/Hold";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from "./components/ScrollToTop";
 
 
 
 const App = () => {
   return (
     <AppContextProvider>
+       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Auth Component={Home} />} />
         <Route path="/userdetails" element={<Auth Component={UserDetails} />} />

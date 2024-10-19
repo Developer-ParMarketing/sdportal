@@ -9,6 +9,7 @@ import {
   Imgthree,
   Imgfour,
   Imgfive,
+  Imgsix,
 } from "../assets/images/index";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -130,19 +131,19 @@ const Offer = () => {
       title: "Shield from Creditor Harassment & Legal Protection",
       description:
         "We handle all creditor communications and legal matters, including harassment, notices, arbitration, and court representation, keeping you protected 24/7.",
-      image: Imgthree,
+      image: Imgfive,
     },
     {
       title: "Personalized Financial Support",
       description:
         "Get a dedicated relationship manager for customized budgeting and financial advice.",
-      image: Imgfour,
+      image: Imgthree,
     },
     {
       title: "Real-Time Tracking",
       description:
         "Track your payment progress in real time through our app and online portal.",
-      image: Imgfive,
+      image: Imgsix,
     },
   ];
 
@@ -212,42 +213,41 @@ const Offer = () => {
 
       {/* Additional CSS */}
       <style jsx>{`
-  .offers-grid {
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping to the next line */
-    justify-content: center; /* Center the items in the container */
-    gap: 30px;
-  }
+        .offers-grid {
+          display: flex;
+          flex-wrap: wrap; /* Allow wrapping to the next line */
+          justify-content: center; /* Center the items in the container */
+          gap: 30px;
+        }
 
-  .offer-card {
-    flex: 1 1 300px; /* Flex-grow and flex-shrink with a minimum size of 300px */
-    max-width: 300px; /* Ensure cards don’t stretch too wide */
-  }
+        .offer-card {
+          flex: 1 1 300px; /* Flex-grow and flex-shrink with a minimum size of 300px */
+          max-width: 300px; /* Ensure cards don’t stretch too wide */
+        }
 
-  @media (max-width: 768px) {
-    .offers-grid {
-      justify-content: center; /* Ensure the cards are centered on smaller screens */
-    }
+        @media (max-width: 768px) {
+          .offers-grid {
+            justify-content: center; /* Ensure the cards are centered on smaller screens */
+          }
 
-    .offer-card {
-      flex: 1 1 100%; /* Full width on smaller screens */
-    }
+          .offer-card {
+            flex: 1 1 100%; /* Full width on smaller screens */
+          }
 
-    h1 {
-      font-size: 1.8rem;
-    }
+          h1 {
+            font-size: 1.8rem;
+          }
 
-    .offer-card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 5px;
-    }
+          .offer-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+          }
 
-    .offer-card p {
-      font-size: 1rem;
-    }
-  }
-`}</style>
-
+          .offer-card p {
+            font-size: 1rem;
+          }
+        }
+      `}</style>
     </>
   );
 };

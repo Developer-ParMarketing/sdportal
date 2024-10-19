@@ -18,14 +18,15 @@ const Encouragement = () => {
             className="card mx-auto shadow border-0"
             style={{
               width: "100%", // Set the width to 100% for responsiveness
-              maxWidth: "600px", // Maintain max width
+              maxWidth: "450px", // Maintain max width
               borderRadius: "15px",
               overflow: "hidden",
               transition: "transform 0.3s, box-shadow 0.3s",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-5px)";
-              e.currentTarget.style.boxShadow = "0 10px 20px rgba(0, 0, 0, 0.2)";
+              e.currentTarget.style.boxShadow =
+                "0 10px 20px rgba(0, 0, 0, 0.2)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
@@ -39,7 +40,7 @@ const Encouragement = () => {
                   borderRadius: "15px 15px 0 0",
                   padding: "20px",
                   backgroundColor: "#ed2224",
-                  borderBottom:'1px solid white'
+                  borderBottom: "1px solid white",
                 }}
               >
                 <h2
@@ -56,7 +57,12 @@ const Encouragement = () => {
               />
               <p
                 className="card-text "
-                style={{ fontSize: "1.5rem", margin: "20px 0", fontWeight:'bolder',color:'red'}}
+                style={{
+                  fontSize: "1.5rem",
+                  margin: "20px 0",
+                  fontWeight: "bolder",
+                  color: "red",
+                }}
               >
                 Join India’s 1st and only platform to:
               </p>
@@ -83,7 +89,11 @@ const Encouragement = () => {
                   >
                     <span
                       className=""
-                      style={{ fontSize: "1.5rem", marginRight: "10px",color:'red' }}
+                      style={{
+                        fontSize: "1.5rem",
+                        marginRight: "10px",
+                        color: "red",
+                      }}
                     >
                       &#10003;
                     </span>
