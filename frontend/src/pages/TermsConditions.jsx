@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import colorLogo from "../assets/images/color logo.png";
 import { FaHome } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'; 
 
 const TermsConditions = () => {
+  const location = useLocation(); // Get the current location and data passed from the Card component
+ 
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate(); 
 
@@ -12,12 +14,30 @@ const TermsConditions = () => {
     setIsChecked(e.target.checked);
     
   };
+  const { title, emi, oneTimeFee } = location.state || {};
+  const calculatedEMI = localStorage.getItem("calculatedEMI");
+  const subscription = localStorage.getItem("subscription");
+  const totalbil = localStorage.getItem("totalbil");
+
+
   const handleConfirmClick = () => {
     if (isChecked) {
       // Redirect to the payment page
-      navigate('/payment');
+      navigate('/');  navigate("/payment", {
+        state: {
+          title,
+          calculatedEMI,
+          subscription,
+          oneTimeFee,
+          totalbil,
+          emi,
+        },
+      });
     }
   }
+
+  
+
   return (
     <>
       <div className="container-fluid bg-white p-2 sticky-top d-flex align-items-center justify-content-between">
@@ -44,7 +64,7 @@ const TermsConditions = () => {
                 paddingBottom: "8px", // Adds space between the text and border
               }}
             >
-              Terms & Conditions
+              Terms & Conditions 
             </h2>
           </div>
 

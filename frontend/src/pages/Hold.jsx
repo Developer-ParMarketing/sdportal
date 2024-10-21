@@ -63,9 +63,10 @@ const Hold = () => {
                   margin: "20px 0",
                 }}
               >
-                Thank you for enrolling in our <strong>Debt Management Plan (DMP)</strong> to
-                begin your journey towards becoming debt-free and improving your
-                credit score.
+                Thank you for enrolling in our{" "}
+                <strong>Debt Management Plan (DMP)</strong> to begin your
+                journey towards becoming debt-free and improving your credit
+                score.
               </p>
               <p
                 className="card-text"
@@ -75,7 +76,9 @@ const Hold = () => {
                 }}
               >
                 One of our financial advisors will contact you shortly from the
-                number <strong>020 225678924</strong>. Please ensure you’re
+                number  <strong>
+                    <a href="tel:02268762605"> 022 68762605</a>
+                  </strong>. Please ensure you’re
                 available to discuss your financial situation so we can guide
                 you through the next steps.
               </p>
@@ -104,18 +107,7 @@ const Hold = () => {
                     using the link below:
                   </p>
 
-                  <Link
-                    to='/' // Use the actual payment link here
-                    className="btn btn-danger btn-lg"
-                    style={{
-                      borderRadius: "20px",
-                      padding: "10px 30px",
-                      fontSize: "1.2rem",
-                      margin: "15px 0",
-                    }}
-                  >
-                    GO TO DASHBOARD
-                  </Link>  <a
+                  <a
                     href={paymentLink} // Use the actual payment link here
                     className="btn btn-danger btn-lg"
                     style={{
@@ -149,9 +141,14 @@ const Hold = () => {
                 }}
               >
                 If you have any questions, we’re here to help!{" "}
-                <strong>Call us at 020 225678924</strong> between{" "}
-                <strong>9 AM and 7 PM, Monday to Saturday</strong>, or access
-                live support.
+                <strong>
+                  Call us at{" "}
+                  <strong>
+                    <a href="tel:02268762605"> 022 68762605</a>
+                  </strong>
+                </strong>{" "}
+                between <strong>9 AM and 7 PM, Monday to Saturday</strong>, or
+                access live support.
               </p>
 
               <footer
