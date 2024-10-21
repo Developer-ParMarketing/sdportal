@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Usernavbar from "../components/Usernavbar";
 import CardCarousel from "../components/CardCarousel ";
 import debtsol from "../assets/images/Imgfive.png";
+import Imgfour from "../assets/images/Imgfour.png";
+import Imgsix from "../assets/images/Imgsix.png";
+import Imgtwo from "../assets/images/Imgtwo.png";
 import Hishweta from "../components/Hishweta";
 import { useLocation, useNavigate } from "react-router-dom";
 import Aos from "aos";
@@ -56,15 +59,15 @@ const Description = () => {
 
   const cardContent = [
     {
-      title: "1 Debt Solution",
+      title: "1 Debt Solution Plan",
       text: "It’s looking good, We’ve found 4 debt and 2 harassment solutions that match your profile based on the information you have provided.",
-      imgSrc: debtsol,
+      imgSrc: Imgfour,
       imgAlt: "Debt Solutions",
     },
     {
       title: "2 Debt Management Plan",
       text: "Our lawyers will negotiate with all your creditors a structured repayment plan that consolidates all unsecured debts into a single monthly payment.",
-      imgSrc: debtsol,
+      imgSrc: Imgsix,
       imgAlt: "Debt Solutions",
     },
     {
@@ -86,7 +89,7 @@ const Description = () => {
     {
       title: "Our Fees",
       text: "We believe in flexible pricing based on your affordability. We charge the equivalent of your first two months' EMIs.",
-      imgSrc: debtsol,
+      imgSrc: Imgtwo,
       imgAlt: "Debt Solutions",
     },
   ];
@@ -187,162 +190,166 @@ const Description = () => {
 
             {/* Modal */}
             {showModal && (
-  <div
-    className="modal show"
-    tabIndex="-1"
-    style={{
-      display: "block",
-      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
-      animation: "fadeIn 0.3s ease-in-out", // Subtle fade-in animation
-    }}
-    role="dialog"
-  >
-    <div
-      className="modal-dialog modal-dialog-centered"
-      style={{
-        maxWidth: "600px",
-        animation: "scaleUp 0.3s ease-in-out", // Slight scale-up effect on modal appearance
-      }}
-    >
-      <div
-        className="modal-content"
-        style={{
-          borderRadius: "20px", // Softer rounded corners
-          border: "2px solid red", // Red border for emphasis
-          background: "white", // White background for modal content
-          color: "red", // Primary text color
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)", // Soft shadow for the modal
-        }}
-      >
-        <div
-          className="modal-header"
-          style={{
-            borderBottom: "1px solid red", // Red accent divider for header
-            paddingBottom: "15px",
-            display: "flex", // Use flex to space out title and close button
-            justifyContent: "space-between", // Space between title and close button
-            alignItems: "center", // Center alignment vertically
-          }}
-        >
-          <h5
-            className="modal-title text-center"
-            style={{
-              color: "red", // Title color
-              fontSize: "24px", // Title font size
-              fontWeight: "800", // Increased font weight
-              textTransform: "uppercase", // Uppercase for impact
-              letterSpacing: "1px", // Add letter spacing
-              padding: "20px 0", // Padding for spacing
-            }}
-          >
-            {modalData.title1} & {modalData.title2}
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-            onClick={handleCloseModal}
-            style={{
-              background: "transparent",
-              border: "none",
-              fontSize: "24px",
-              color: "red", // Close button color
-            }}
-          >
-            &times;
-          </button>
-        </div>
+              <div
+                className="modal show"
+                tabIndex="-1"
+                style={{
+                  display: "block",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
+                  animation: "fadeIn 0.3s ease-in-out", // Subtle fade-in animation
+                }}
+                role="dialog"
+              >
+                <div
+                  className="modal-dialog modal-dialog-centered"
+                  style={{
+                    maxWidth: "600px",
+                    animation: "scaleUp 0.3s ease-in-out", // Slight scale-up effect on modal appearance
+                  }}
+                >
+                  <div
+                    className="modal-content"
+                    style={{
+                      borderRadius: "20px", // Softer rounded corners
+                      border: "2px solid red", // Red border for emphasis
+                      background: "white", // White background for modal content
+                      color: "red", // Primary text color
+                      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)", // Soft shadow for the modal
+                    }}
+                  >
+                    <div
+                      className="modal-header"
+                      style={{
+                        borderBottom: "1px solid red", // Red accent divider for header
+                        paddingBottom: "15px",
+                        display: "flex", // Use flex to space out title and close button
+                        justifyContent: "space-between", // Space between title and close button
+                        alignItems: "center", // Center alignment vertically
+                      }}
+                    >
+                      <h5
+                        className="modal-title text-center"
+                        style={{
+                          color: "red", // Title color
+                          fontSize: "24px", // Title font size
+                          fontWeight: "800", // Increased font weight
+                          textTransform: "uppercase", // Uppercase for impact
+                          letterSpacing: "1px", // Add letter spacing
+                          padding: "0px 0", // Padding for spacing
+                        }}
+                      >
+                        {modalData.title1} & {modalData.title2}
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        aria-label="Close"
+                        onClick={handleCloseModal}
+                        style={{
+                          background: "transparent",
+                          border: "1px solid black",
+                          fontSize: "24px",
+                          textAlign:'center',
+                          display:'flex',
+                          justifyContent:'center',
+                          alignItems:'center',
+                          color: "red", // Close button color
+                        }}
+                      >
+                        &times;
+                      </button>
+                    </div>
 
-        <div className="modal-body" style={{ padding: "20px" }}>
-          <h5
-            className="text-center" // Center subtitle
-            style={{
-              color: "red", // Subtitle color
-              fontSize: "20px", // Subtitle font size
-              fontWeight: "600", // Increased font weight
-              marginBottom: "10px",
-              textTransform: "uppercase", // Uppercase for emphasis
-              letterSpacing: "0.5px",
-            }}
-          >
-            {modalData.title1}
-          </h5>
-          <p
-            className="text-center" // Center text
-            style={{
-              color: "red", // Text color for contrast
-              fontSize: "16px",
-              lineHeight: "1.6", // Improved line spacing for readability
-              margin: "10px 0", // Vertical margin for spacing
-            }}
-          >
-            {modalData.text1}
-          </p>
+                    <div className="modal-body" style={{ padding: "20px" }}>
+                      <h5
+                        className="text-center" // Center subtitle
+                        style={{
+                          color: "red", // Subtitle color
+                          fontSize: "20px", // Subtitle font size
+                          fontWeight: "600", // Increased font weight
+                          marginBottom: "10px",
+                          textTransform: "uppercase", // Uppercase for emphasis
+                          letterSpacing: "0.5px",
+                        }}
+                      >
+                        {modalData.title1}
+                      </h5>
+                      <p
+                        className="text-center" // Center text
+                        style={{
+                          color: "red", // Text color for contrast
+                          fontSize: "16px",
+                          lineHeight: "1.6", // Improved line spacing for readability
+                          margin: "10px 0", // Vertical margin for spacing
+                        }}
+                      >
+                        {modalData.text1}
+                      </p>
 
-          <h5
-            className="text-center"
-            style={{
-              color: "red", // Subtitle color
-              fontSize: "20px", // Subtitle font size
-              fontWeight: "600", // Increased font weight
-              marginTop: "20px",
-              textTransform: "uppercase", // Uppercase for emphasis
-              letterSpacing: "0.5px",
-            }}
-          >
-            {modalData.title2}
-          </h5>
-          <p
-            className="text-center"
-            style={{
-              color: "red", // Text color for contrast
-              fontSize: "16px",
-              lineHeight: "1.6", // Line spacing for readability
-              margin: "10px 0", // Vertical margin for spacing
-            }}
-          >
-            {modalData.text2}
-          </p>
-        </div>
+                      <h5
+                        className="text-center"
+                        style={{
+                          color: "red", // Subtitle color
+                          fontSize: "20px", // Subtitle font size
+                          fontWeight: "600", // Increased font weight
+                          marginTop: "20px",
+                          textTransform: "uppercase", // Uppercase for emphasis
+                          letterSpacing: "0.5px",
+                        }}
+                      >
+                        {modalData.title2}
+                      </h5>
+                      <p
+                        className="text-center"
+                        style={{
+                          color: "red", // Text color for contrast
+                          fontSize: "16px",
+                          lineHeight: "1.6", // Line spacing for readability
+                          margin: "10px 0", // Vertical margin for spacing
+                        }}
+                      >
+                        {modalData.text2}
+                      </p>
+                    </div>
 
-        <div
-          className="modal-footer"
-          style={{
-            borderTop: "1px solid red", // Red accent divider for footer
-            display: "flex",
-            justifyContent: "center",
-            padding: "15px 0", // Padding for spacing
-          }}
-        >
-          <button
-            type="button"
-            className="btn"
-            onClick={handleCloseModal}
-            style={{
-              backgroundColor: "red", // Button background color
-              color: "white", // Button text color
-              borderRadius: "30px",
-              padding: "12px 30px", // More padding for button
-              fontWeight: "bold",
-              border: "none",
-              fontSize: "16px", // Button text size
-              transition: "background 0.3s ease", // Smooth transition for hover
-            }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = "tomato") // Change color on hover
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = "red") // Revert on mouse leave
-            }
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+                    <div
+                      className="modal-footer"
+                      style={{
+                        borderTop: "1px solid red", // Red accent divider for footer
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: "15px 0", // Padding for spacing
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className="btn"
+                        onClick={handleCloseModal}
+                        style={{
+                          backgroundColor: "red", // Button background color
+                          color: "white", // Button text color
+                          borderRadius: "30px",
+                          padding: "12px 30px", // More padding for button
+                          fontWeight: "bold",
+                          border: "none",
+                          fontSize: "16px", // Button text size
+                          transition: "background 0.3s ease", // Smooth transition for hover
+                        }}
+                        onMouseEnter={
+                          (e) =>
+                            (e.currentTarget.style.backgroundColor = "tomato") // Change color on hover
+                        }
+                        onMouseLeave={
+                          (e) => (e.currentTarget.style.backgroundColor = "red") // Revert on mouse leave
+                        }
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <CardCarousel unsecured={totalDebts} />
