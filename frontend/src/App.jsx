@@ -74,7 +74,7 @@ const App = () => {
         <Route path="/proceed" element={<Auth Component={Proceed} />}/>
         <Route path="/income-and-expense" element={<Auth Component={Income} />}/>
         <Route path="/description" element={<Auth Component={Description} />}/>
-        <Route path="/payment" element={<PaymentPage/>} />
+        <Route path="/payment" element={<Auth Component={PaymentPage} />} />
         <Route path="/enroll" element={<Auth Component={ ThankYouPage}/>} />
         <Route path="/offer" element={<Auth Component={ Offer}/>} />
         <Route path="/encouragement" element={<Auth Component={ Encouragement}/>} />

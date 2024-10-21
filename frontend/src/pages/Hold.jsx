@@ -2,6 +2,7 @@ import React from "react";
 import Usernavbar from "../components/Usernavbar";
 import Hishweta from "../components/Hishweta";
 import "../assets/css/encouragement.css";
+import { Link } from "react-router-dom";
 
 const Hold = () => {
   const paymentLink = "https://your-payment-link.com"; // Replace with your actual payment link
@@ -103,7 +104,18 @@ const Hold = () => {
                     using the link below:
                   </p>
 
-                  <a
+                  <Link
+                    to='/' // Use the actual payment link here
+                    className="btn btn-danger btn-lg"
+                    style={{
+                      borderRadius: "20px",
+                      padding: "10px 30px",
+                      fontSize: "1.2rem",
+                      margin: "15px 0",
+                    }}
+                  >
+                    GO TO DASHBOARD
+                  </Link>  <a
                     href={paymentLink} // Use the actual payment link here
                     className="btn btn-danger btn-lg"
                     style={{
