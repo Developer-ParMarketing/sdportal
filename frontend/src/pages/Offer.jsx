@@ -149,7 +149,7 @@ const Offer = () => {
 
   // Handler to navigate to the payment page
   const handleContinue = () => {
-    navigate("/payment", {
+    navigate("/termsconditions", {
       state: {
         title,
         calculatedEMI,
