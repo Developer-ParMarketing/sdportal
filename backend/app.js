@@ -24,6 +24,7 @@ app.use(
   cors({
     origin: [
       "https://client.singledebt.in",
+      "https://enroll.singledebt.in",
       "http://localhost:3000",
       "https://msg.mtalkz.com",
     ],
