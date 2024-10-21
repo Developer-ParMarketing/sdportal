@@ -17,7 +17,11 @@ const Auth = ({ Component }) => {
     // Check if user is logged in
     if (!sdUser) {
       navigate("/login", { replace: true });
-      return; // Stop further execution
+      return;
+    } else if (window.location.pathname === "/" && paymentStatus !== "completed") {
+      // If payment is not completed, redirect to the payment page
+      navigate("/payment", { replace: true });
+      return;
     }
 
     try {
@@ -25,8 +29,7 @@ const Auth = ({ Component }) => {
       if (token === null) {
         const createToken = await axios.get(`${url}/token/generate`);
         token = createToken.data.token[0].token;
-        await authenticate(); // Retry authentication after token generation
-        return; // Ensure to exit after the recursive call
+        await authenticate(); // Re-run authentication after generating a token
       } else {
         const res = await axios.get(
           `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/search?criteria=((Phone_Number:equals:${sdUser}))`,
@@ -46,12 +49,6 @@ const Auth = ({ Component }) => {
             }
           }
           setUser(details);
-
-          // If payment status is not completed, redirect to payment page
-          if (paymentStatus !== "completed") {
-            navigate("/payment", { replace: true }); // Redirect to payment if not completed
-          }
-          // If payment is completed, allow access to all pages
         } else if (res.status === 401) {
           setError("Token expired. Please try again after sometime.");
         } else if (res.status === 204) {
@@ -60,7 +57,7 @@ const Auth = ({ Component }) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError("Token expired. Please try again after sometime.");
     }
   };
@@ -88,8 +85,15 @@ const Auth = ({ Component }) => {
     );
   }
 
-  // Render nothing until user data is loaded
-  return user !== null ? <Component /> : <Loading />;
+  return (
+    <>
+      {user ? (
+        <Component />
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
 };
 
 export default Auth;
