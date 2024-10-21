@@ -62,7 +62,7 @@ const Hold = () => {
                   margin: "20px 0",
                 }}
               >
-                Thank you for enrolling in our Debt Management Plan (DMP) to
+                Thank you for enrolling in our <strong>Debt Management Plan (DMP)</strong> to
                 begin your journey towards becoming debt-free and improving your
                 credit score.
               </p>
