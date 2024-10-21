@@ -137,7 +137,7 @@ const PaymentPage = () => {
       progress: undefined, // Custom progress
     });
     setIsEnrolled(true);
-    navigate("/enroll");
+    navigate("/hold");
   };
 
   const updatePaymentStatusInZoho = async (paymentId, token) => {
