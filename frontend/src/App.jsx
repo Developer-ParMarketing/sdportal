@@ -80,7 +80,7 @@ const App = () => {
         <Route path="/encouragement" element={<Auth Component={ Encouragement}/>} />
         {/*  */}
         <Route path="/termsconditions" element={<TermsConditions />} />
-        <Route path="/hold" element={<Hold />} />
+        <Route path="/hold" element={<Auth Component={Hold }/>} />
         <Route path="/faq" element={<FAQ />} />
 
 
