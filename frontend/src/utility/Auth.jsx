@@ -15,6 +15,7 @@ const Auth = ({ Component }) => {
   const authenticate = async () => {
     const sdUser = JSON.parse(localStorage.getItem("sdUser"));
     const paymentStatus = localStorage.getItem("paymentStatus");
+    const termsAccepted = localStorage.getItem("termsAccepted");
 
     // Restrict access to the homepage ("/") if payment is not completed
     if (!sdUser) {
@@ -23,6 +24,10 @@ const Auth = ({ Component }) => {
       return;
     }
 
+    if (!termsAccepted && location.pathname === "/payment") {
+      navigate("/termsconditions", { replace: true });
+      return;
+    }
     // Check if the user is trying to access the homepage ("/")
     if (location.pathname === "/" && paymentStatus !== "completed") {
       // If payment is not completed, redirect to the payment page
