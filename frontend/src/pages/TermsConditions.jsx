@@ -23,6 +23,9 @@ const TermsConditions = () => {
   const handleConfirmClick = () => {
     if (isChecked) {
       // Redirect to the payment page
+      localStorage.setItem("termsAccepted", "true");
+
+
       navigate('/');  navigate("/payment", {
         state: {
           title,
