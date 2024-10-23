@@ -4,7 +4,6 @@ const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
   const url = "https://api-enroll.singledebt.in";
-  // const url = "https://api.singledebt.in";
   const [user, setUser] = useState(null);
   const [selectedPlanData, setSelectedPlanData] = useState({});
   
