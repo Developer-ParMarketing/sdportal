@@ -28,6 +28,7 @@ app.use(
       "https://api-enroll.singledebt.in",
       "http://localhost:3000",
       "https://msg.mtalkz.com",
+      
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
@@ -44,14 +45,20 @@ const razorpay = new Razorpay({
   key_secret: 'vdcnj54E9uk3pmbbcS5MTLNH', 
 });
 
+
+
+
 // Create order route
 app.post("/api/payment/orders", async (req, res) => {
+  console.log('hi');
   const { amount, currency } = req.body;
   const options = {
     amount: amount * 100, // amount in paise
     currency: currency,
     receipt: "receipt#1",
+    
   };
+  
 
   try {
     const response = await razorpay.orders.create(options);

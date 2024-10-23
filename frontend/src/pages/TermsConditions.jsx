@@ -2,31 +2,29 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import colorLogo from "../assets/images/color logo.png";
 import { FaHome } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from "react-router-dom";
 
 const TermsConditions = () => {
   const location = useLocation(); // Get the current location and data passed from the Card component
- 
+
   const [isChecked, setIsChecked] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
-    
   };
   const { title, emi, oneTimeFee } = location.state || {};
   const calculatedEMI = localStorage.getItem("calculatedEMI");
   const subscription = localStorage.getItem("subscription");
   const totalbil = localStorage.getItem("totalbil");
 
-
   const handleConfirmClick = () => {
     if (isChecked) {
       // Redirect to the payment page
       localStorage.setItem("termsAccepted", "true");
 
-
-      navigate('/');  navigate("/payment", {
+      navigate("/");
+      navigate("/payment", {
         state: {
           title,
           calculatedEMI,
@@ -37,9 +35,7 @@ const TermsConditions = () => {
         },
       });
     }
-  }
-
-  
+  };
 
   return (
     <>
@@ -54,7 +50,17 @@ const TermsConditions = () => {
         </Link>
       </div>
       {/*  */}
-      <div className="container p-2">
+      <div
+        className="container p-2"
+        style={{
+          // border: "1px solid #ddd", // Border for the whole section
+          // borderRadius: "10px", // Rounded corners
+          // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a clean look
+          // backgroundColor: "#f9f9f9", // Light background color
+          maxHeight: "500px", // Set a fixed height
+          overflowY: "auto",
+        }}
+      >
         <div className="container mt-5">
           {/* Title Section */}
           <div className="text-center mt-4">
@@ -67,7 +73,7 @@ const TermsConditions = () => {
                 paddingBottom: "8px", // Adds space between the text and border
               }}
             >
-              Terms & Conditions 
+              Terms & Conditions
             </h2>
           </div>
 
@@ -1251,7 +1257,7 @@ const TermsConditions = () => {
             </li>
           </ol>
           {/* confirm brn */}
-          <div className="container mt-4">
+          {/* <div className="container mt-4">
             <div className="text-center">
               <div className="form-check mb-3">
                 <input
@@ -1310,9 +1316,10 @@ const TermsConditions = () => {
                 Confirm
               </button>
             </div>
-          </div>
+          </div> */}
           {/*  */}
         </div>
+
         {/*  */}
 
         {/* <ol className="tandclist">
@@ -1384,6 +1391,63 @@ const TermsConditions = () => {
         </ul>
       </div>
     </> */}
+      </div>
+      <div className="container mt-4">
+        <div className="text-center">
+          <div className="form-check mb-3">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="termsCheckbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              className="form-check-label"
+              htmlFor="termsCheckbox"
+              style={{ fontSize: "14px", textAlign: "left" }}
+            >
+              <p
+                className="mb-4"
+                style={{
+                  textAlign: "justify",
+                }}
+              >
+                I confirm that I have read, understand, and agree to be bound by
+                the terms & conditions of the agreement. I acknowledge that
+                these services and the fees associated with the said services
+                have been explained to my full satisfaction, and that I have no
+                unanswered questions about the same.
+              </p>
+            </label>
+          </div>
+
+          <button
+            className="btn btn-danger"
+            style={{
+              backgroundColor: isChecked ? "#ff4855" : "#d3d3d3", // Red color if checked, grey if not
+              border: "none",
+              padding: "10px 20px",
+              margin: "20px 0px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              borderRadius: "5px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow
+              transition: "all 0.3s ease",
+              cursor: isChecked ? "pointer" : "not-allowed",
+            }}
+            disabled={!isChecked} // Disable button if checkbox is not checked
+            onMouseEnter={(e) =>
+              isChecked && (e.currentTarget.style.backgroundColor = "#e63946")
+            } // Hover effect only when enabled
+            onMouseLeave={(e) =>
+              isChecked && (e.currentTarget.style.backgroundColor = "#ff4855")
+            }
+            onClick={handleConfirmClick}
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     </>
   );

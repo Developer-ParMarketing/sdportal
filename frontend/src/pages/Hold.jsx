@@ -24,7 +24,7 @@ const Hold = () => {
           }}
         >
           <div
-            className="card mx-auto shadow border-0"
+            className="card1 mx-auto shadow border-0"
             style={{
               maxWidth: "600px",
               borderRadius: "15px",
@@ -76,11 +76,12 @@ const Hold = () => {
                 }}
               >
                 One of our financial advisors will contact you shortly from the
-                number  <strong>
-                    <a href="tel:02268762605"> 022 68762605</a>
-                  </strong>. Please ensure you’re
-                available to discuss your financial situation so we can guide
-                you through the next steps.
+                number{" "}
+                <strong>
+                  <a href="tel:02268762605"> 022 68762605</a>
+                </strong>
+                . Please ensure you’re available to discuss your financial
+                situation so we can guide you through the next steps.
               </p>
               <p
                 className="card-text"
@@ -107,18 +108,32 @@ const Hold = () => {
                     using the link below:
                   </p>
 
-                  <a
-                    href={paymentLink} // Use the actual payment link here
-                    className="btn btn-danger btn-lg"
-                    style={{
-                      borderRadius: "20px",
-                      padding: "10px 30px",
-                      fontSize: "1.2rem",
-                      margin: "15px 0",
-                    }}
-                  >
-                    Make EMI Payment
-                  </a>
+                  <div className="d-flex flex-column flex-md-row justify-content-between">
+  <a
+    href={paymentLink} // Use the actual payment link here
+    className="btn btn-danger btn-lg col-12 col-md-5 d-flex align-items-center justify-content-center" // Added flex and alignment classes
+    style={{
+      borderRadius: "20px",
+      padding: "10px 30px",
+      fontSize: "1.2rem",
+      margin: "10px 0", // Adjusted margin for better spacing
+    }}
+  >
+    Make EMI Payment
+  </a>
+  <a
+    href={paymentLink} // Use the actual payment link here
+    className="btn btn-danger btn-lg col-12 col-md-5 d-flex align-items-center justify-content-center" // Added flex and alignment classes
+    style={{
+      borderRadius: "20px",
+      padding: "10px 30px",
+      fontSize: "1.2rem",
+      margin: "10px 0", // Adjusted margin for better spacing
+    }}
+  >
+    Pay Later
+  </a>
+</div>
 
                   <p
                     className="text-muted"

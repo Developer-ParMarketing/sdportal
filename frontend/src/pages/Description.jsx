@@ -104,7 +104,7 @@ const Description = () => {
       <div className="container p-2 py-4">
         <Hishweta
           heading={"Hi! I'm Shweta"}
-          paragraph={"Your specialist lawyer in harassment and debt matters"}
+          paragraph={"Harassment and Debt Solutions"}
         />
         <div className="maindiv">
           <h1 style={headerStyle}>Harassment and Debt Solutions</h1>

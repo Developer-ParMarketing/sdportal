@@ -152,73 +152,70 @@ const CardCarousel = ({ unsecured }) => {
   ];
 
   return (
-    <div
-      id="cardCarousel"
-      className="carousel slide"
-      data-bs-ride="carousel"
-      style={{ margin: "2rem 0" }}
+ <div
+  id="cardCarousel"
+  className="carousel slide"
+  data-bs-ride="carousel"
+  style={{ margin: "2rem 0" }}
+>
+  <div className="carousel-inner">
+    <h1
+      style={{
+        marginBottom: "20px",
+        textAlign: "center",
+        fontWeight: "bolder",
+        color: "red",
+        textTransform: "capitalize",
+      }}
     >
-      <div className="carousel-inner">
-        <h1
-          className=""
-          style={{
-            marginBottom: "20px",
-            textAlign: "center",
-            fontWeight: "bolder",
-            color: "red",
-            textTransform: "capitalize",
-          }}
-        >
-          select your affordable plan
-        </h1>
-        {cards.reduce((acc, card, index) => {
-          if (index % 2 === 0) {
-            acc.push(
-              <div
-                className={`carousel-item ${index === 0 ? "active" : ""}`}
-                key={index}
-              >
-                <div className="row g-2">
-                  {" "}
-                  {/* Use g-2 for smaller gaps */}
-                  <div className="col-12 col-md-6 d-flex justify-content-center">
-                    {" "}
-                    {/* Adjust for mobile */}
-                    <Card {...card} />
-                  </div>
-                  {cards[index + 1] && (
-                    <div className="col-12 col-md-6 d-flex justify-content-center">
-                      {" "}
-                      {/* Adjust for mobile */}
-                      <Card {...cards[index + 1]} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          }
-          return acc;
-        }, [])}
-      </div>
+      Select Your Affordable Plan
+    </h1>
 
-      {/* Carousel indicators */}
-      <div className="carousel-indicators">
-        {cards.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            data-bs-target="#cardCarousel"
-            style={{ backgroundColor: "#ff4865", border: "2px solid white" }}
-            data-bs-slide-to={Math.floor(index / 2)} // Adjust to show only two buttons
-            className={
-              index % 2 === 0 ? (index === 0 ? "active" : "") : "d-none"
-            }
-            aria-current={index === 0 ? "true" : "false"}
-            aria-label={`Slide ${Math.floor(index / 2) + 1}`}
-          ></button>
-        ))}
+    {/* Group cards in pairs for desktop, and show individual cards for mobile */}
+    {cards.map((card, index) => (
+      <div
+        className={`carousel-item ${index === 0 ? "active" : ""}`}
+        key={index}
+      >
+        <div className="row g-2">
+          {/* For mobile view: Show one card per slide */}
+          <div className="col-12 d-flex justify-content-center d-md-none">
+            <Card {...card} />
+          </div>
+
+          {/* For larger screens: Show two cards per slide */}
+          <div className="col-12 col-md-6 d-none d-md-flex justify-content-center">
+            <Card {...card} />
+          </div>
+          {/* Show the next card in the same slide for desktop */}
+          {cards[index + 1] && (
+            <div className="col-12 col-md-6 d-none d-md-flex justify-content-center">
+              <Card {...cards[index + 1]} />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    ))}
+  </div>
+
+  {/* Carousel indicators */}
+  <div className="carousel-indicators">
+    {cards.map((_, index) => (
+      <button
+        key={index}
+        type="button"
+        data-bs-target="#cardCarousel"
+        style={{ backgroundColor: "#ff4865", border: "2px solid white" }}
+        data-bs-slide-to={index}
+        className={index === 0 ? "active" : ""}
+        aria-current={index === 0 ? "true" : "false"}
+        aria-label={`Slide ${index + 1}`}
+      ></button>
+    ))}
+  </div>
+</div>
+
+  
   );
 };
 
