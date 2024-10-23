@@ -23,7 +23,7 @@ const RegistrationFlow = () => {
         {[
           {
             step: 1,
-            icon: <FaFileAlt style={{ color: "gray", fontSize: "54px" }} />,
+            icon: <FaFileAlt style={{ color: "red", fontSize: "54px" }} />,
             title: "Share Your Debts and Type of Harassment",
             description:
               "Provide us with information about the type of harassment and your current debts. This helps us understand your situation and tailor the best legal and debt solution that fits your needs.",

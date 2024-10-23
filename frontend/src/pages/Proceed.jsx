@@ -5,11 +5,7 @@ import Usernavbar from "../components/Usernavbar";
 import Hishweta from "../components/Hishweta";
 import { useHistory } from "react-router-dom";
 
-import { toast } from 'react-toastify';
-
-
-
-
+import { toast } from "react-toastify";
 
 const Proceed = () => {
   const navigate = useNavigate();
@@ -91,7 +87,7 @@ const Proceed = () => {
       draggablePercent: 60, // Dragging distance percentage
       progress: undefined, // Custom progress
     });
-    
+
     // Navigate to the Income page and pass the form data
     navigate("/income-and-expense", { state: formData });
   };
@@ -152,27 +148,41 @@ const Proceed = () => {
               ref={totalEMIRef}
               required
             />
-            <select style={inputStyle} ref={harassmentTypeRef} required>
-              {/* <option value="" disabled>
+            <select
+              style={inputStyle}
+              ref={harassmentTypeRef}
+              required
+              defaultValue=""
+            >
+              <option value="" disabled>
                 Select type of harassment
-              </option> */}
-              {harassmentOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <select style={inputStyle} ref={legalActionRef} required>
-              {/* <option value="" disabled>
-                Select type of legal action
-              </option> */}
-              {legalActionOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
+              </option>
+              {harassmentOptions
+                .filter((option) => option.value) // Filter out the first placeholder option from the array
+                .map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
             </select>
 
+            <select
+              style={inputStyle}
+              ref={legalActionRef}
+              required
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select type of legal action
+              </option>
+              {legalActionOptions
+                .filter((option) => option.value) // Filter out the first placeholder option from the array
+                .map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+            </select>
             {/*  */}
 
             {/*  */}
