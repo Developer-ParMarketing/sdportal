@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdCheckCircle } from "react-icons/md";
@@ -27,15 +28,22 @@ const PaymentPage = () => {
   };
 
   const [title, setTitle] = useState(passedTitle || "Please Select Your Plan");
+  const [paymentStatus, setPaymentStatus] = useState(null);
   const [emi, setEmi] = useState(passedEmi || "Please Select Your Plan");
-  const [oneTimeFee, setOneTimeFee] = useState(passedOneTimeFee || "Please Select Your Plan");
-  const [calculatedEMI, setCalculatedEMIe] = useState(passedCalculatedEMI || "Please Select Your Plan");
+  const [oneTimeFee, setOneTimeFee] = useState(
+    passedOneTimeFee || "Please Select Your Plan"
+  );
+  const [calculatedEMI, setCalculatedEMIe] = useState(
+    passedCalculatedEMI || "Please Select Your Plan"
+  );
+
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     console.log("Passed title:", passedTitle);
     console.log("Passed EMI:", passedEmi);
     console.log("Passed One-Time Fee:", passedOneTimeFee);
-  
+
     const paymentStatus = localStorage.getItem("paymentStatus");
     if (paymentStatus === "completed") {
       setIsEnrolled(true);
@@ -45,29 +53,32 @@ const PaymentPage = () => {
         setEmi(currentPlan.emi);
         setOneTimeFee(currentPlan.oneTimeFee);
         setCalculatedEMIe(currentPlan.calculatedEMI);
-
       }
     }
-  
+
     if (passedTitle) localStorage.setItem("selectedPlan", passedTitle);
     if (passedEmi) localStorage.setItem("monthlyEmi", passedEmi);
-    if (passedOneTimeFee) localStorage.setItem("enrollmentFee", passedOneTimeFee);
+    if (passedOneTimeFee)
+      localStorage.setItem("enrollmentFee", passedOneTimeFee);
   }, [passedTitle, passedEmi, passedOneTimeFee]);
-  
+
   // Function to handle payment
   const handlePayment = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://api-enroll.singledebt.in/api/payment/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: oneTimeFee,
-          currency: "INR",
-        }),
-      });
+      const response = await fetch(
+        "https://api-enroll.singledebt.in/api/payment/orders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: oneTimeFee,
+            currency: "INR",
+          }),
+        }
+      );
 
       const orderData = await response.json();
       if (!orderData.id) throw new Error("Failed to create Razorpay order");
@@ -110,11 +121,14 @@ const PaymentPage = () => {
 
     // Store payment status and plan details
     localStorage.setItem("paymentStatus", "completed");
-    localStorage.setItem("currentPlan", JSON.stringify({
-      title: title,
-      emi: emi,
-      oneTimeFee: oneTimeFee,
-    }));
+    localStorage.setItem(
+      "currentPlan",
+      JSON.stringify({
+        title: title,
+        emi: emi,
+        oneTimeFee: oneTimeFee,
+      })
+    );
 
     // Update payment status in Zoho CRM
     try {
@@ -126,46 +140,114 @@ const PaymentPage = () => {
 
     // Redirect to Thank You page
 
-    toast.success(`Payment successful! Payment ID: " + ${response.razorpay_payment_id}`, {
-      position: "top-right", // You can choose other positions like "top-left", "bottom-right", etc.
-      autoClose: 3000, // Time in milliseconds before the toast automatically closes
-      hideProgressBar: false, // Show/hide progress bar
-      closeOnClick: true, // Close toast on click
-      pauseOnHover: true, // Pause on hover
-      draggable: true, // Allow dragging
-      draggablePercent: 60, // Dragging distance percentage
-      progress: undefined, // Custom progress
-    });
+    toast.success(
+      `Payment successful! Payment ID: " + ${response.razorpay_payment_id}`,
+      {
+        position: "top-right", // You can choose other positions like "top-left", "bottom-right", etc.
+        autoClose: 3000, // Time in milliseconds before the toast automatically closes
+        hideProgressBar: false, // Show/hide progress bar
+        closeOnClick: true, // Close toast on click
+        pauseOnHover: true, // Pause on hover
+        draggable: true, // Allow dragging
+        draggablePercent: 60, // Dragging distance percentage
+        progress: undefined, // Custom progress
+      }
+    );
     setIsEnrolled(true);
     navigate("/hold");
   };
 
   const updatePaymentStatusInZoho = async (paymentId, token) => {
-    const recordId = "REPLACE_WITH_RECORD_ID"; // Replace this with the correct record ID
+    const recordId = localStorage.getItem("recordId"); // Retrieve the record ID from localStorage
+    if (!recordId) {
+      console.error("No record ID found.");
+      return; // Early exit if recordId is not available
+    }
+    const getCurrentDate = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
 
     try {
-      const response = await fetch(`${url}/crm/v2/Leads/${recordId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Zoho-oauthtoken ${token}`,
-        },
-        body: JSON.stringify({
-          data: [
+      // Prepare the data according to the Zoho API specification
+      const response = await fetch(
+        `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/${recordId}`,
+        {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Zoho-oauthtoken ${token}`,
+          },
+          body: JSON.stringify([
             {
-              id: recordId,
-              Payment_Status: "Completed",
+              Enroll_Payment_Date: getCurrentDate(), // Use YYYY-MM-DD format
+              Enroll_Payment_Status: "Paid", // Updated field name
+              Step: "4", // Ensure Step is a string as per your requirement
             },
-          ],
-        }),
-      });
+          ]),
+        }
+      );
 
-      if (!response.ok) throw new Error("Failed to update payment status in Zoho");
+      // Check if the response is OK
+      if (!response.ok)
+        throw new Error("Failed to update payment status in Zoho");
+
       console.log("Payment status updated in Zoho successfully");
     } catch (error) {
       console.error("Error updating Zoho:", error);
     }
   };
+  // gett the data
+  const fetchPaymentStatusFromZoho = async (token) => {
+    const recordId = localStorage.getItem("recordId");
+    if (!recordId) {
+      console.error("No record ID found.");
+      return null; // Return null if no record ID is found
+    }
+
+    try {
+      const response = await fetch(
+        `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/${recordId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Zoho-oauthtoken ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok)
+        throw new Error("Failed to fetch payment status from Zoho");
+
+      const data = await response.json();
+      return data; // Return the data received from Zoho
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
+      return null; // Return null in case of an error
+    }
+  };
+
+  useEffect(() => {
+    const getTokenAndFetchStatus = async () => {
+      const token = await getToken(); // Fetch the token
+      setToken(token); // Set the token state
+
+      const status = await fetchPaymentStatusFromZoho(token); // Fetch payment status
+      if (status) {
+        console.log(
+          "Payment status from Zoho:",
+          status.data[0].Enroll_Payment_Status
+        ); // Debugging log
+        setPaymentStatus(status.data[0]); // Update payment status in state
+      }
+    };
+
+    getTokenAndFetchStatus(); // Call the async function
+  }, []);
 
   return (
     <>
@@ -185,11 +267,13 @@ const PaymentPage = () => {
               />
             </div>
           </div> */}
-        <Hishweta
-          heading={"Hi! I'm Shweta"}
-          paragraph={"Join us today for just ₹599 and begin your journey!"}
-        />
+          <Hishweta
+            heading={"Hi! I'm Shweta"}
+            paragraph={"Join us today for just ₹599 and begin your journey!"}
+          />
           <h1 style={{}} className="maindiv">
+            {/* remove */}
+            {/* remove */}
             Get Started Today for Just {oneTimeFee}!
           </h1>
           <ul className=" list-unstyled pt-4">
@@ -208,11 +292,32 @@ const PaymentPage = () => {
                 style={{ fontSize: "1.5rem", width: "30px" }}
               />
               <span style={{ flex: 1, fontSize: "1rem" }}>
-                Enjoy affordable EMIs—pay only <strong>{emi}</strong> per month,
-                saving <strong>₹XXX</strong> compared to your original EMI
-                payments.
+                Enjoy affordable EMIs—pay only{" "}
+                <strong>
+                  ₹
+                  {paymentStatus
+                    ? Math.round(paymentStatus.Monthly_EMI_Payment)
+                    : ""}
+                </strong>{" "}
+                per month, saving{" "}
+                <strong>
+                  ₹
+                  {Math.abs(
+                    Math.round(
+                      (paymentStatus ? paymentStatus.Income : 0) -
+                        (paymentStatus ? paymentStatus.Expenses : 0) -
+                        (paymentStatus ? paymentStatus.Monthly_EMI_Payment : 0)
+                    )
+                  )}
+                </strong>{" "}
+                {/* <br />
+                {paymentStatus ? paymentStatus.Income : 0} <br />
+                {paymentStatus ? paymentStatus.Expenses : 0} <br />
+                {paymentStatus ? paymentStatus.Monthly_EMI_Payment : 0} <br /> */}
+                compared to your original EMI payments.
               </span>
             </li>
+
             <li className="d-flex align-items-center mb-2">
               <MdCheckCircle
                 className="text-success me-2"
@@ -263,7 +368,10 @@ const PaymentPage = () => {
                   Selected Plan:
                 </p>
                 <span style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}>
-                  {title || "Please Select Your Plan"} Months{" "}
+                  {/* {title || "Please Select Your Plan"} Months{" "} */}
+                  {title
+                    ? `${paymentStatus ? paymentStatus.Plan_Type : ""}`
+                    : "Please Select Your Plan"}
                   {/* Ensure data is always displayed */}
                 </span>
               </li>
@@ -284,7 +392,16 @@ const PaymentPage = () => {
                   Monthly EMI:
                 </p>
                 <span style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}>
-                  {emi || "Please Select Your Plan"}
+                  {/* {emi || "Please Select Your Plan"} */}₹
+                  {emi
+                    ? `${
+                        paymentStatus
+                          ? Math.round(
+                              paymentStatus.Monthly_EMI_Payment
+                            ).toLocaleString()
+                          : ""
+                      }`
+                    : "Please Select Your Plan"}
                 </span>
               </li>
               <li
@@ -304,13 +421,16 @@ const PaymentPage = () => {
                   Enrollment Fee:
                 </p>
                 <span style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}>
-                ₹{oneTimeFee || "Please Select Your Plan"}
+                  ₹{oneTimeFee ? `${oneTimeFee}` : "₹599 is enroll fee"}
+                  {/* ₹{oneTimeFee || "599 is Paid"} */}
+                  {/* ₹{oneTimeFee || "Please Select Your Plan"} */}
                 </span>
               </li>
             </ul>
 
             <div>
-              {isEnrolled ? (
+              {paymentStatus?.Enroll_Payment_Status?.toLowerCase() ===
+              "paid" ? (
                 <button
                   disabled
                   style={{
@@ -344,7 +464,7 @@ const PaymentPage = () => {
                       cursor: "pointer",
                       display: "block",
                       margin: "20px auto",
-                      transition: "background 0.3s",
+                      transition: "background 0.3s ease-in-out",
                     }}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.background = "#ff866a")
@@ -353,15 +473,12 @@ const PaymentPage = () => {
                       (e.currentTarget.style.background = "#ff4865")
                     }
                   >
-                    Enroll now for only ₹{oneTimeFee || "Please Select Your Plan"}
+                    Enroll now for only ₹
+                    {oneTimeFee ? oneTimeFee : "₹599 enrollment fee"}
                   </button>
                 </Link>
               )}
             </div>
-
-
-
-
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import colorLogo from "../assets/images/color logo.png";
@@ -14,7 +15,7 @@ import axios from "axios";
 
 const AppBar = () => {
   const { url, user, getToken } = useContext(AppContext);
-  //
+  
   const [modalVisible, setModalVisible] = useState(false);
   const openLogoutModal = () => {
     setModalVisible(true);
@@ -30,7 +31,7 @@ const AppBar = () => {
     localStorage.removeItem("sdUser");
     navigate("/login", { replace: true });
   };
-  //
+
   const [refModal, setRefModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({
@@ -101,6 +102,7 @@ const AppBar = () => {
       }
     }
   };
+
   return (
     <>
       <div className="container-fluid bg-white p-2 sticky-top d-flex align-items-center justify-content-between">
@@ -140,13 +142,17 @@ const AppBar = () => {
         </div>
 
         <div className="mt-4">
-          <h2 className="text-md-center">Welcome back {user.Full_Name}</h2>
+          <h2 className="text-md-center">
+            Welcome back {user?.Full_Name || "Guest"}
+          </h2>
           <p className="text-capitalize fw-bold">
-            Account manager: {user.Account_Manager.name}
+            Account manager: {user?.Account_Manager?.name || "N/A"}
           </p>
           <p className="text-capitalize fw-bold">
             Unique reference number:{" "}
-            <span className="text-uppercase">{user.Lead_Unique_ID}</span>
+            <span className="text-uppercase">
+              {user?.Lead_Unique_ID || "N/A"}
+            </span>
           </p>
         </div>
 
@@ -171,8 +177,9 @@ const AppBar = () => {
           </li>
           <li>
             <a
-              href={user.Lead_Activity_Details}
+              href={user?.Lead_Activity_Details || "#"}
               target="_blank"
+              rel="noopener noreferrer"
               className="white-button"
             >
               <FaJournalWhills />

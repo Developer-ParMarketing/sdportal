@@ -16,10 +16,18 @@ const Usernavbar = () => {
   //
   const [modalVisible, setModalVisible] = useState(false);
   const openLogoutModal = () => {
+    localStorage.removeItem("rzp_checkout_anon_id");
+    localStorage.removeItem("rzp_device_id");
+    localStorage.removeItem("sdUser");
+    localStorage.removeItem("recordId");
+    localStorage.removeItem("calculatedEMI");
+    localStorage.removeItem("subscription");
+    localStorage.removeItem("totalbil");
     setModalVisible(true);
     setRefModal(false);
     setError(false);
     setMessage("");
+    navigate("/login"); 
   };
   const closeLogoutModal = () => {
     setModalVisible(false);

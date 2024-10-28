@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+
+import React, { useContext, useRef } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Usernavbar from "../components/Usernavbar";
@@ -6,8 +7,12 @@ import Hishweta from "../components/Hishweta";
 import { useHistory } from "react-router-dom";
 
 import { toast } from "react-toastify";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
 
 const Proceed = () => {
+  const { url, user, getToken } = useContext(AppContext);
+ 
   const navigate = useNavigate();
   const unsecuredCreditorsRef = useRef();
   const totalDebtsRef = useRef();
@@ -66,31 +71,47 @@ const Proceed = () => {
     backgroundColor: "#0056b3", // Darker blue on hover
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      unsecuredCreditors: unsecuredCreditorsRef.current.value,
-      totalDebts: totalDebtsRef.current.value,
-      totalEMI: totalEMIRef.current.value,
-      harassmentType: harassmentTypeRef.current.value,
-      legalAction: legalActionRef.current.value,
-    };
+    const formData = [
+      {
+          No_Of_Loans: unsecuredCreditorsRef.current.value,
+          Outstanding: totalDebtsRef.current.value,
+          EMI_Payments: totalEMIRef.current.value,
+          Harassment_Type: harassmentTypeRef.current.value,
+          Legal_Status: legalActionRef.current.value,
+          Step: 1,
+      }
+  ]
 
-    toast.success("Form submitted successfully!", {
-      position: "top-right", // You can choose other positions like "top-left", "bottom-right", etc.
-      autoClose: 3000, // Time in milliseconds before the toast automatically closes
-      hideProgressBar: false, // Show/hide progress bar
-      closeOnClick: true, // Close toast on click
-      pauseOnHover: true, // Pause on hover
-      draggable: true, // Allow dragging
-      draggablePercent: 60, // Dragging distance percentage
-      progress: undefined, // Custom progress
-    });
+    try {
+        const token = await getToken(); 
+        const recordId = localStorage.getItem('recordId'); 
+        console.log(recordId);
+        console.log(token);
+        
+        
+        const response = await axios.put(
+            `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/${recordId}`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Zoho-oauthtoken ${token}`,
+                },
+            }
+        );
 
-    // Navigate to the Income page and pass the form data
-    navigate("/income-and-expense", { state: formData });
-  };
+        if (response.data.data[0].code === "SUCCESS") {
+            toast.success("Data updated successfully!");
+            navigate('/income-and-expense')
+        }
+    } catch (error) {
+        console.error("Error updating data:", error);
+        toast.error("Failed to update data.");
+    }
+};
 
   const harassmentOptions = [
     { label: "Select type of harassment" },

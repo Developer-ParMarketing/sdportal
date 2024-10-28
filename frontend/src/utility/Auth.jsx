@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation to check the current path
 import { AppContext } from "../context/AppContext";
@@ -11,11 +13,13 @@ const Auth = ({ Component }) => {
   const [error, setError] = useState(null);
   const [errorStatus, setErrorStatus] = useState(false);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [token, setToken] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [step, setStep] = useState(null);
+  const [account_Status, setAccount_Status] = useState(null);
 
   const authenticate = async () => {
     const sdUser = JSON.parse(localStorage.getItem("sdUser"));
-    const paymentStatus = localStorage.getItem("paymentStatus");
-    const termsAccepted = localStorage.getItem("termsAccepted");
 
     // Restrict access to the homepage ("/") if payment is not completed
     if (!sdUser) {
@@ -24,26 +28,25 @@ const Auth = ({ Component }) => {
       return;
     }
 
-    if (!termsAccepted && location.pathname === "/payment") {
-      navigate("/termsconditions", { replace: true });
-      return;
-    }
-    // Check if the user is trying to access the homepage ("/")
-    if (location.pathname === "/" && paymentStatus !== "completed") {
-      // If payment is not completed, redirect to the payment page
-      navigate("/payment", { replace: true });
-      return;
+    // Fetch token and payment status
+    let token = await getToken();
+    if (!token) {
+      const createToken = await axios.get(`${url}/token/generate`);
+      token = createToken.data.token[0].token;
     }
 
+    const status = await fetchPaymentStatusFromZoho(token); // Fetch payment status
+    if (status && status.data.length > 0) {
+      setPaymentStatus(status.data[0].Enroll_Payment_Status); // Update payment status
+       setStep(status.data[0].Step)
+       setAccount_Status(status.data[0].Step)
+    } else {
+      console.error("No valid payment status found in response.");
+      setPaymentStatus(null);
+    }
+
+    
     try {
-      let token = await getToken();
-      if (!token) {
-        // If token is not found, generate a new one
-        const createToken = await axios.get(`${url}/token/generate`);
-        token = createToken.data.token[0].token;
-      }
-
-      // Fetch user details with the token
       const res = await axios.get(
         `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/search?criteria=((Phone_Number:equals:${sdUser}))`,
         {
@@ -56,18 +59,10 @@ const Auth = ({ Component }) => {
 
       if (res.status === 200) {
         const details = res.data.data[0];
-        for (const key in details) {
-          if (details[key] === null) details[key] = "";
-        }
         setUser(details);
         setLoading(false); // Stop loading once user data is set
-      } else if (res.status === 401) {
-        setError("Token expired. Please try again after sometime.");
-        setLoading(false);
-      } else if (res.status === 204) {
-        setError("Account not found");
-        setErrorStatus(true);
-        setLoading(false);
+      } else {
+        handleErrorResponse(res);
       }
     } catch (error) {
       console.error(error);
@@ -76,9 +71,52 @@ const Auth = ({ Component }) => {
     }
   };
 
+  const handleErrorResponse = (res) => {
+    if (res.status === 401) {
+      setError("Token expired. Please try again after sometime.");
+    } else if (res.status === 204) {
+      setError("Account not found");
+      setErrorStatus(true);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     authenticate();
   }, [location.pathname]); // Make sure to re-run this logic on route change
+
+  // Fetch payment status from Zoho
+  const fetchPaymentStatusFromZoho = async (token) => {
+    const recordId = localStorage.getItem("recordId");
+    console.log('this is ',paymentStatus?.toLowerCase() !== "paid");
+    console.log('this is ',step);
+    
+    if (!recordId) {
+      console.error("No record ID found.");
+      return null; // Return null if no record ID is found
+    }
+
+    try {
+      const response = await fetch(
+        `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/${recordId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Zoho-oauthtoken ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch payment status from Zoho");
+
+      const data = await response.json();
+      return data; // Return the data received from Zoho
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
+      return null; // Return null in case of an error
+    }
+  };
 
   const differentAccount = () => {
     localStorage.removeItem("sdUser");
@@ -96,7 +134,7 @@ const Auth = ({ Component }) => {
         <p>{error}</p>
         {errorStatus && (
           <button className="button" onClick={differentAccount}>
-            Login with different account
+            Login with different account {console.log('this is other data', paymentStatus?.Enroll_Payment_Status)}
           </button>
         )}
       </div>
