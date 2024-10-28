@@ -1,12 +1,132 @@
-import React from "react";
+
+
+import React, { useContext, useEffect, useState } from "react";
 import Usernavbar from "../components/Usernavbar";
 import Hishweta from "../components/Hishweta";
 import "../assets/css/encouragement.css";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Hold = () => {
-  const paymentLink = "https://your-payment-link.com"; // Replace with your actual payment link
-  const isPaymentLinkAvailable = true; // Replace this with the actual condition
+  const navigate = useNavigate();
+  const recordId = localStorage.getItem("recordId");
+  const { url, getToken, user } = useContext(AppContext);
+  const [error, setError] = useState(null);
+  const [invoicePaymentData, setInvoicePaymentData] = useState(null);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [paymentLink, setPaymentLink] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState(null);
+
+  useEffect(() => {
+    // Log user's Enroll_Payment_Status for debugging
+    console.log("User Enroll_Payment_Status:", user?.Enroll_Payment_Status);
+    handlePaymentCompletion();
+    // Check if the user is active
+    if (user?.Account_Status !== "Active") {
+      console.log("User is not authorized to view this page.");
+      // handleUserStepNavigation();
+    } else {
+      checkPaymentStatus();
+    }
+  }, [user, navigate]);
+
+  const checkPaymentStatus = async () => {
+    try {
+      const token = await getToken();
+      const apiUrl = `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Invoice_Payment/search?criteria=(Lead_Name:equals:${recordId})`;
+
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const paymentData = response.data.data.find(
+        (item) => item.Payment_Number === 1
+      );
+      console.log("Payment data:", paymentData);
+
+      // if (user && user.Enroll_Payment_Status === "paid") {
+      //   setPaymentStatus("paid");
+      //   navigate("/hold");
+
+      //   fetchInvoicePaymentData(token); // Fetch invoice payment data if paid
+      // } else {
+      //   console.log("User has not paid.");
+      //   navigate("/payment"); // Redirect to the appropriate step
+      // }
+    } catch (error) {
+      console.error("Error checking payment status", error);
+      navigate("/registrationfflow"); // Redirect on error as well
+    }
+  };
+
+  const fetchInvoicePaymentData = async (token) => {
+    try {
+      if (recordId) {
+        const apiUrl = `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Invoice_Payment/search?criteria=${recordId}`;
+        console.log(`Fetching invoice payment data from: ${apiUrl}`);
+
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Zoho-oauthtoken ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        setInvoicePaymentData(response.data);
+        console.log("Invoice Payment Data:", invoicePaymentData);
+
+        navigate("/hold"); // Navigate to Hold page after fetching data if payment is confirmed
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching invoice payment data",
+        error.response ? error.response.data : error
+      );
+      setError("Failed to fetch invoice payment data.");
+    }
+  };
+
+  const handlePaymentCompletion = async () => {
+    try {
+      const token = await getToken();
+      const newApiUrl = `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Invoice_Payment/search?criteria=((Lead_Name:equals:${recordId}))`;
+
+      const response = await axios.get(newApiUrl, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.data && Array.isArray(response.data.data)) {
+        const paymentData = response.data.data.find(
+          (item) => item.Payment_Number === 1
+        );
+
+        if (paymentData) {
+          setIsButtonEnabled(true);
+          setPaymentLink(paymentData.URL_1);
+        } else {
+          setIsButtonEnabled(false);
+          setPaymentLink("");
+        }
+      } else {
+        console.log("No payment data available.");
+        setIsButtonEnabled(false);
+        setPaymentLink("");
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching new payment data",
+        error.response ? error.response.data : error
+      );
+      setError("Failed to fetch new payment data.");
+    }
+  };
 
   return (
     <>
@@ -16,217 +136,171 @@ const Hold = () => {
           heading={"Hi! I'm Shweta"}
           paragraph={"Your specialist lawyer in harassment and debt matters"}
         />
-        <div
-          className="maindiv"
-          style={{
-            padding: "20px",
-            background: "#f8f9fa",
-          }}
-        >
+
+        {user?.Enroll_Payment_Status === "Paid" ? (
           <div
-            className="card1 mx-auto shadow border-0"
-            style={{
-              maxWidth: "600px",
-              borderRadius: "15px",
-              overflow: "hidden",
-              transition: "transform 0.3s, box-shadow 0.3s",
-            }}
+            className="maindiv"
+            style={{ padding: "20px", background: "#f8f9fa" }}
           >
             <div
-              className="card-body text-center"
+              className="card1 mx-auto shadow border-0"
               style={{
-                padding: "20px",
+                maxWidth: "600px",
+                borderRadius: "15px",
+                overflow: "hidden",
+                transition: "transform 0.3s, box-shadow 0.3s",
               }}
             >
-              <h2
-                className="card-title text-danger"
-                style={{
-                  fontSize: "2rem",
-                  marginBottom: "10px",
-                }}
+              <div
+                className="card-body text-center"
+                style={{ padding: "20px" }}
               >
-                🎉 Great News!
-              </h2>
-              <p
-                className="card-text"
-                style={{
-                  fontSize: "1.2rem",
-                  margin: "20px 0",
-                }}
-              >
-                Thank You for Enrolling in Our DMP
-              </p>
-              <p
-                className="card-text"
-                style={{
-                  fontSize: "1rem",
-                  margin: "20px 0",
-                }}
-              >
-                Thank you for enrolling in our{" "}
-                <strong>Debt Management Plan (DMP)</strong> to begin your
-                journey towards becoming debt-free and improving your credit
-                score.
-              </p>
-              <p
-                className="card-text"
-                style={{
-                  fontSize: "1rem",
-                  margin: "20px 0",
-                }}
-              >
-                One of our financial advisors will contact you shortly from the
-                number{" "}
-                <strong>
-                  <a href="tel:02268762605"> 022 68762605</a>
-                </strong>
-                . Please ensure you’re available to discuss your financial
-                situation so we can guide you through the next steps.
-              </p>
-              <p
-                className="card-text"
-                style={{
-                  fontSize: "1rem",
-                  margin: "20px 0",
-                }}
-              >
-                We’re here to support you every step of the way in achieving
-                financial freedom!
-              </p>
+                <h2
+                  className="card-title text-danger"
+                  style={{ fontSize: "2rem", marginBottom: "10px" }}
+                >
+                  🎉 Great News!
+                </h2>
+                <p
+                  className="card-text"
+                  style={{ fontSize: "1.2rem", margin: "20px 0" }}
+                >
+                  Thank You for Enrolling in Our DMP
+                </p>
+                <p
+                  className="card-text"
+                  style={{ fontSize: "1rem", margin: "20px 0" }}
+                >
+                  Thank you for enrolling in our{" "}
+                  <strong>Debt Management Plan (DMP)</strong> to begin your
+                  journey towards becoming debt-free and improving your credit
+                  score.
+                </p>
 
-              {isPaymentLinkAvailable && (
-                <>
-                  <p
-                    className="card-text"
+                {invoicePaymentData && (
+                  <div>
+                    <p>
+                      Invoice Payment Data: {JSON.stringify(invoicePaymentData)}
+                    </p>
+                  </div>
+                )}
+
+                <p
+                  className="card-text"
+                  style={{ fontSize: "1.2rem", margin: "20px 0" }}
+                >
+                  Your DMP benefits are now ready to be activated. To start
+                  enjoying the benefits, please make your first EMI payment
+                  using the link below:
+                </p>
+
+                <div className="position-relative">
+                  <a
+                    href={paymentLink || "#"}
+                    className="btn btn-danger btn-lg d-flex align-items-center justify-content-center"
                     style={{
+                      borderRadius: "20px",
+                      padding: "10px 30px",
                       fontSize: "1.2rem",
-                      margin: "20px 0",
-                    }}
-                  >
-                    Your DMP benefits are now ready to be activated. To start
-                    enjoying the benefits, please make your first EMI payment
-                    using the link below:
-                  </p>
-
-                  <div className="d-flex flex-column flex-md-row justify-content-between">
-  <a
-    href={paymentLink} // Use the actual payment link here
-    className="btn btn-danger btn-lg col-12 col-md-5 d-flex align-items-center justify-content-center" // Added flex and alignment classes
-    style={{
-      borderRadius: "20px",
-      padding: "10px 30px",
-      fontSize: "1.2rem",
-      margin: "10px 0", // Adjusted margin for better spacing
-    }}
-  >
-    Make EMI Payment
-  </a>
-  <a
-    href={paymentLink} // Use the actual payment link here
-    className="btn btn-danger btn-lg col-12 col-md-5 d-flex align-items-center justify-content-center" // Added flex and alignment classes
-    style={{
-      borderRadius: "20px",
-      padding: "10px 30px",
-      fontSize: "1.2rem",
-      margin: "10px 0", // Adjusted margin for better spacing
-    }}
-  >
-    Pay Later
-  </a>
-</div>
-
-                  <p
-                    className="text-muted"
-                    style={{
-                      fontSize: "0.9rem",
                       margin: "10px 0",
+                      opacity: paymentLink ? 1 : 0.5,
+                      pointerEvents: paymentLink ? "auto" : "none",
                     }}
                   >
-                    This link is valid for <strong>12 hours</strong>, so please
-                    complete your setup before it expires.
-                  </p>
-                </>
-              )}
+                    {paymentLink?"pay Later":"Link is not generated connect with us 02268762605"}
+                  </a>
 
-              <p
-                className="text-muted"
-                style={{
-                  fontSize: "0.9rem",
-                  margin: "10px 0",
-                }}
-              >
-                If you have any questions, we’re here to help!{" "}
-                <strong>
-                  Call us at{" "}
-                  <strong>
-                    <a href="tel:02268762605"> 022 68762605</a>
-                  </strong>
-                </strong>{" "}
-                between <strong>9 AM and 7 PM, Monday to Saturday</strong>, or
-                access live support.
-              </p>
+                  {/* Tooltip */}
+                  {/* {!paymentLink && (
+                    <span className="paylater"
+                      style={{
+                        position: "absolute",
+                        bottom: "100%", // Position above the button
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "#333", // Dark background for the tooltip
+                        color: "#fff", // White text
+                        padding: "5px 10px",
+                        borderRadius: "5px",
+                        visibility: "visible",
+                        opacity: 0.8,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      Payment link is not available yet. Please Connect with us 122.
+                    </span>
+                  )} */}
+                </div>
 
-              <footer
-                style={{
-                  marginTop: "20px",
-                  fontSize: "1rem",
-                }}
-              >
-                <strong className="card-title text-danger">Thank you!</strong>
-              </footer>
+                <p
+                  className="text-muted"
+                  style={{ fontSize: "0.9rem", margin: "10px 0" }}
+                >
+                  This link is valid for <strong>12 hours</strong>, so please
+                  complete your setup before it expires.
+                </p>
+
+                {/* <button
+                  onClick={handlePaymentCompletion}
+                  className="btn btn-success"
+                >
+                  Fetch New Payment Data
+                </button> */}
+
+                <footer style={{ marginTop: "20px", fontSize: "1rem" }}>
+                  <strong className="card-title text-danger">Thank you!</strong>
+                </footer>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className="maindiv"
+            style={{ padding: "20px", background: "#f8f9fa" }}
+          >
+            <div
+              className="card1 mx-auto shadow border-0"
+              style={{
+                maxWidth: "600px",
+                borderRadius: "15px",
+                overflow: "hidden",
+                transition: "transform 0.3s, box-shadow 0.3s",
+              }}
+            >
+              <div
+                className="card-body text-center"
+                style={{ padding: "20px" }}
+              >
+                <h2
+                  className="card-title text-danger"
+                  style={{ fontSize: "2rem", marginBottom: "10px" }}
+                >
+                  Complete The Payment !
+                </h2>
+                <p
+                  className="card-text"
+                  style={{ fontSize: "1.2rem", margin: "20px 0" }}
+                >
+                  Thank You for Enrolling in Our DMP
+                </p>
+                <p
+                  className="card-text"
+                  style={{ fontSize: "1rem", margin: "20px 0" }}
+                >
+                  Thank you for visiting in our{" "}
+                  <strong>Debt Management Plan (DMP)</strong> to begin your
+                  journey towards becoming debt-free and improving your credit
+                  score.
+                </p>
+
+                <footer style={{ marginTop: "20px", fontSize: "1rem" }}>
+                  <strong className="card-title text-danger">Thank you!</strong>
+                </footer>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      <style jsx>{`
-        .container {
-          max-width: 100%;
-          padding-left: 15px;
-          padding-right: 15px;
-        }
-
-        .card {
-          max-width: 100%;
-        }
-
-        @media (max-width: 576px) {
-          .card-body {
-            padding: 15px;
-          }
-
-          .card-title {
-            font-size: 1.6rem;
-          }
-
-          .card-text {
-            font-size: 0.9rem;
-          }
-
-          .btn-lg {
-            padding: 8px 20px;
-            font-size: 1rem;
-          }
-        }
-
-        @media (min-width: 577px) and (max-width: 768px) {
-          .card-body {
-            padding: 20px;
-          }
-
-          .card-title {
-            font-size: 1.8rem;
-          }
-
-          .card-text {
-            font-size: 1rem;
-          }
-
-          .btn-lg {
-            padding: 10px 25px;
-            font-size: 1.1rem;
-          }
-        }
-      `}</style>
     </>
   );
 };

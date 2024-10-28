@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 import Usernavbar from '../components/Usernavbar';
 import Hishweta from '../components/Hishweta';
 import { useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { AppContext } from '../context/AppContext';
+import axios from 'axios';
 
 const Income = () => {
+    const { url, user, getToken } = useContext(AppContext);
+ 
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -61,32 +65,53 @@ const Income = () => {
         fontWeight: 'bold',
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        // Retrieve the values from your refs
         const totalIncome = incomeRef.current.value;
         const monthlyExpenses = expensesRef.current.value;
-
-        // Combine the existing form data with the new data
-        const combinedData = {
-            ...formData,
-            totalIncome,
-            monthlyExpenses,
-        };
-
-        toast.success("Form submitted successfully!", {
-            position: "top-right", // You can choose other positions like "top-left", "bottom-right", etc.
-            autoClose: 3000, // Time in milliseconds before the toast automatically closes
-            hideProgressBar: false, // Show/hide progress bar
-            closeOnClick: true, // Close toast on click
-            pauseOnHover: true, // Pause on hover
-            draggable: true, // Allow dragging
-            draggablePercent: 60, // Dragging distance percentage
-            progress: undefined, // Custom progress
-          });
-
-        // Navigate to the Description page with combined data
-        navigate("/description", { state: combinedData });
+    
+        // Prepare the form data to be sent to the Zoho API
+        const combinedData =  [
+                {
+                    Income: totalIncome, // Assuming this corresponds to the total income
+                    Expenses: monthlyExpenses,
+                    Step: 2, // Make sure to set the correct step for this API call
+                }
+            ]
+       
+    
+        try {
+            const token = await getToken(); 
+            const recordId = localStorage.getItem('recordId'); 
+    
+            console.log(recordId);
+            console.log(token);
+            
+            // Make the PUT request to update data in Zoho CRM
+            const response = await axios.put(
+                `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/${recordId}`,
+                combinedData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Zoho-oauthtoken ${token}`,
+                    },
+                }
+            );
+    
+            // Check the response for success
+            if (response.data.data[0].code === "SUCCESS") {
+                toast.success("Data updated successfully!");
+                navigate('/description'); // Navigate to the Description page
+            }
+        } catch (error) {
+            console.error("Error updating data:", error);
+            toast.error("Failed to update data.");
+        }
     };
+    
 
   
     return (

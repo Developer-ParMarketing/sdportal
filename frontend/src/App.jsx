@@ -34,6 +34,7 @@ import Hold from "./pages/Hold";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScrollToTop from "./components/ScrollToTop";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -82,8 +83,7 @@ const App = () => {
         <Route path="/termsconditions" element={<TermsConditions />} />
         <Route path="/hold" element={<Auth Component={Hold }/>} />
         <Route path="/faq" element={<FAQ />} />
-
-
+        <Route path="*" element={<NotFound />} />
 
         {/* try and test cards */}
       
