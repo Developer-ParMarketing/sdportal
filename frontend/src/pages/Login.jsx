@@ -33,105 +33,6 @@ const Login = () => {
     });
   };
 
-  // const generateOTP = async () => {
-  //   if (!inputs.mobile) {
-  //     setMessage("Enter your mobile number");
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       `https://msg.mtalkz.com/V2/http-api-sms.php?apikey=ZwNEGnllw1d6psrt&senderid=SGLDBT&number=${inputs.mobile}&message=Your%20secret%20One%20Time%20Password%20(OTP)%20is%20{OTP}.%20Keep%20it%20confidential%20for%20security%20reasons%2C%20and%20don%27t%20share%20it%20with%20anyone.%20SingleDebt&format=json`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (res.data.Status === "Success") {
-  //       localStorage.setItem("sdUser", JSON.stringify(inputs.mobile));
-  //       setGenerated(true);
-  //       setInputs({
-  //         ...inputs,
-  //         details: res.data.Details,
-  //       });
-  //       setMessage("OTP sent successfully");
-  //     } else {
-  //       setMessage("Failed to send OTP");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setMessage("Error sending OTP");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const verifyOTP = async () => {
-  //   if (!inputs.otp) {
-  //     setMessage("Enter OTP");
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-
-  //     // Verify OTP via mtalkz
-  //     const otpRes = await axios.get(
-  //       `https://msg.mtalkz.com/V2/http-verifysms-api.php?apikey=ZwNEGnllw1d6psrt&sessionid=${inputs.details}&otp=${inputs.otp}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     if (otpRes.data.Status === "Success") {
-  //       // Fetch the Zoho CRM API token
-  //       const token = await getToken();
-  //       if (!token) {
-  //         setMessage("Authentication failed, unable to get token.");
-  //         return;
-  //       }
-
-  //       // Search for the lead by mobile number
-  //       const res = await axios.get(
-  //         `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/search?criteria=(Phone_Number:equals:${inputs.mobile})`,
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Zoho-oauthtoken ${token}`,
-  //           },
-  //         }
-  //       );
-
-  //       const userData = res.data?.data?.[0]; // Ensure we get the first record from Zoho
-  //       if (userData) {
-  //         const recordId = userData.id;
-  //         console.log(recordId);
-
-  //         localStorage.setItem("recordId", recordId); // Store recordId in localStorage
-
-  //         handleLogin(userData, inputs.mobile); // Log the user in with their data
-  //       } else {
-  //         setMessage("No user data found for the provided mobile number.");
-  //       }
-  //     } else {
-  //       setMessage("OTP verification failed. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error verifying OTP or fetching user data:", error);
-  //     setMessage(
-  //       "An error occurred while verifying OTP or fetching user data."
-  //     );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // otp  setGenerated(true);
-
   const generateOTP = async () => {
     if (!inputs.mobile) {
       setMessage("Enter your mobile number");
@@ -140,19 +41,25 @@ const Login = () => {
 
     try {
       setLoading(true);
-
-      // Default OTP for testing
-      const defaultOtp = "1234";
-      console.log(`Sending OTP ${defaultOtp} to ${inputs.mobile}`);
-
-      // Simulate storing the OTP details for testing
-      localStorage.setItem("sdUser", JSON.stringify(inputs.mobile));
-      setInputs((prev) => ({
-        ...prev,
-        details: defaultOtp, // Store the default OTP in inputs.details for testing
-      }));
-      setMessage("OTP sent successfully. (Default: 1234)"); // Notify user
-      setGenerated(true);
+      const res = await axios.get(
+        `https://msg.mtalkz.com/V2/http-api-sms.php?apikey=ZwNEGnllw1d6psrt&senderid=SGLDBT&number=${inputs.mobile}&message=Your%20secret%20One%20Time%20Password%20(OTP)%20is%20{OTP}.%20Keep%20it%20confidential%20for%20security%20reasons%2C%20and%20don%27t%20share%20it%20with%20anyone.%20SingleDebt&format=json`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.data.Status === "Success") {
+        localStorage.setItem("sdUser", JSON.stringify(inputs.mobile));
+        setGenerated(true);
+        setInputs({
+          ...inputs,
+          details: res.data.Details,
+        });
+        setMessage("OTP sent successfully");
+      } else {
+        setMessage("Failed to send OTP");
+      }
     } catch (error) {
       console.error(error);
       setMessage("Error sending OTP");
@@ -170,11 +77,17 @@ const Login = () => {
     try {
       setLoading(true);
 
-      // Check the OTP against the default OTP
-      const defaultOtp = "1234";
-      if (inputs.otp === defaultOtp) {
-        console.log("Simulated OTP verification success.");
-        setGenerated(true)
+      // Verify OTP via mtalkz
+      const otpRes = await axios.get(
+        `https://msg.mtalkz.com/V2/http-verifysms-api.php?apikey=ZwNEGnllw1d6psrt&sessionid=${inputs.details}&otp=${inputs.otp}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (otpRes.data.Status === "Success") {
         // Fetch the Zoho CRM API token
         const token = await getToken();
         if (!token) {
@@ -193,17 +106,14 @@ const Login = () => {
           }
         );
 
-        const userData = res.data?.data?.[0];
+        const userData = res.data?.data?.[0]; // Ensure we get the first record from Zoho
         if (userData) {
           const recordId = userData.id;
           console.log(recordId);
 
-          localStorage.setItem("recordId", recordId);
+          localStorage.setItem("recordId", recordId); // Store recordId in localStorage
 
-          handleLogin(userData, inputs.mobile);
-
-          // Redirect to the desired page after login
-          navigate('/');
+          handleLogin(userData, inputs.mobile); // Log the user in with their data
         } else {
           setMessage("No user data found for the provided mobile number.");
         }
@@ -212,11 +122,101 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error verifying OTP or fetching user data:", error);
-      setMessage("An error occurred while verifying OTP or fetching user data.");
+      setMessage(
+        "An error occurred while verifying OTP or fetching user data."
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  // otp  setGenerated(true);
+
+  // const generateOTP = async () => {
+  //   if (!inputs.mobile) {
+  //     setMessage("Enter your mobile number");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+
+  //     // Default OTP for testing
+  //     const defaultOtp = "1234";
+  //     console.log(`Sending OTP ${defaultOtp} to ${inputs.mobile}`);
+
+  //     // Simulate storing the OTP details for testing
+  //     localStorage.setItem("sdUser", JSON.stringify(inputs.mobile));
+  //     setInputs((prev) => ({
+  //       ...prev,
+  //       details: defaultOtp, // Store the default OTP in inputs.details for testing
+  //     }));
+  //     setMessage("OTP sent successfully. (Default: 1234)"); // Notify user
+  //     setGenerated(true);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setMessage("Error sending OTP");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const verifyOTP = async () => {
+  //   if (!inputs.otp) {
+  //     setMessage("Enter OTP");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+
+  //     // Check the OTP against the default OTP
+  //     const defaultOtp = "1234";
+  //     if (inputs.otp === defaultOtp) {
+  //       console.log("Simulated OTP verification success.");
+  //       setGenerated(true)
+  //       // Fetch the Zoho CRM API token
+  //       const token = await getToken();
+  //       if (!token) {
+  //         setMessage("Authentication failed, unable to get token.");
+  //         return;
+  //       }
+
+  //       // Search for the lead by mobile number
+  //       const res = await axios.get(
+  //         `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/search?criteria=(Phone_Number:equals:${inputs.mobile})`,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Zoho-oauthtoken ${token}`,
+  //           },
+  //         }
+  //       );
+
+  //       const userData = res.data?.data?.[0];
+  //       if (userData) {
+  //         const recordId = userData.id;
+  //         console.log(recordId);
+
+  //         localStorage.setItem("recordId", recordId);
+
+  //         handleLogin(userData, inputs.mobile);
+
+  //         // Redirect to the desired page after login
+  //         navigate('/');
+  //       } else {
+  //         setMessage("No user data found for the provided mobile number.");
+  //       }
+  //     } else {
+  //       setMessage("OTP verification failed. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error verifying OTP or fetching user data:", error);
+  //     setMessage("An error occurred while verifying OTP or fetching user data.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // otp
 
