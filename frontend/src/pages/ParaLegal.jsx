@@ -1,11 +1,25 @@
 import axios from "axios";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { AppContext } from "../context/AppContext";
 import AppBar from "../components/AppBar";
+import { useNavigate } from "react-router-dom";
 
 const ParaLegal = () => {
   const { url, user, getToken } = useContext(AppContext);
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect if user is not active
+    if (user?.Account_Status !== "Active") {
+      console.log("User is not authorized to view this page.");
+      navigate("/registrationfflow"); // Redirect to registration flow if not active
+    } else if (user?.paymentStatus === "paid") {
+      // If user has paid, redirect to the Hold page and prevent further navigation
+      navigate("/hold");
+    }
+  }, [user, navigate]);
   //
   const [modalVisible, setModalVisible] = useState(false);
   const [modalInputs, setModalInputs] = useState({

@@ -1,5 +1,3 @@
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation to check the current path
 import { AppContext } from "../context/AppContext";
@@ -38,14 +36,13 @@ const Auth = ({ Component }) => {
     const status = await fetchPaymentStatusFromZoho(token); // Fetch payment status
     if (status && status.data.length > 0) {
       setPaymentStatus(status.data[0].Enroll_Payment_Status); // Update payment status
-       setStep(status.data[0].Step)
-       setAccount_Status(status.data[0].Step)
+      setStep(status.data[0].Step);
+      setAccount_Status(status.data[0].Step);
     } else {
       console.error("No valid payment status found in response.");
       setPaymentStatus(null);
     }
 
-    
     try {
       const res = await axios.get(
         `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/search?criteria=((Phone_Number:equals:${sdUser}))`,
@@ -80,17 +77,31 @@ const Auth = ({ Component }) => {
     }
     setLoading(false);
   };
+  console.log(user?user.Account_Status:'');
+
+
+  
+  
 
   useEffect(() => {
     authenticate();
+    // const protectedPages = ['/userdetails','/reportchange','/advocatelawyer','/paralegal','/makepayment','/accountmanager','/documents']; // Add more pages as needed
+
+    // if (protectedPages.includes(location.pathname) && 
+    //     user && 
+    //     (user.Account_Status === "Inactive" || user.Account_Status === "Enrolled")) {
+    //   console.log('User needs to login. Redirecting...');
+    //   navigate('/login');
+      
+    // }
   }, [location.pathname]); // Make sure to re-run this logic on route change
 
   // Fetch payment status from Zoho
   const fetchPaymentStatusFromZoho = async (token) => {
     const recordId = localStorage.getItem("recordId");
-    console.log('this is ',paymentStatus?.toLowerCase() !== "paid");
-    console.log('this is ',step);
-    
+    console.log("this is ", paymentStatus?.toLowerCase() !== "paid");
+    console.log("this is ", step);
+
     if (!recordId) {
       console.error("No record ID found.");
       return null; // Return null if no record ID is found
@@ -108,7 +119,8 @@ const Auth = ({ Component }) => {
         }
       );
 
-      if (!response.ok) throw new Error("Failed to fetch payment status from Zoho");
+      if (!response.ok)
+        throw new Error("Failed to fetch payment status from Zoho");
 
       const data = await response.json();
       return data; // Return the data received from Zoho
@@ -134,7 +146,11 @@ const Auth = ({ Component }) => {
         <p>{error}</p>
         {errorStatus && (
           <button className="button" onClick={differentAccount}>
-            Login with different account {console.log('this is other data', paymentStatus?.Enroll_Payment_Status)}
+            Login with different account{" "}
+            {console.log(
+              "this is other data",
+              paymentStatus?.Enroll_Payment_Status
+            )}
           </button>
         )}
       </div>

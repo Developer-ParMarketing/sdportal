@@ -1,5 +1,5 @@
-import React, { useContext, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { FaTimes } from "react-icons/fa";
@@ -19,6 +19,22 @@ import AppBar from "../components/AppBar";
 
 const AccountManager = () => {
   const { url, user, getToken } = useContext(AppContext);
+
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect if user is not active
+    if (user?.Account_Status !== "Active") {
+      console.log("User is not authorized to view this page.");
+      navigate("/registrationfflow"); // Redirect to registration flow if not active
+    } else if (user?.paymentStatus === "paid") {
+      // If user has paid, redirect to the Hold page and prevent further navigation
+      navigate("/hold");
+    }
+  }, [user, navigate]);
+
+
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => {
     setModalVisible(true);
@@ -92,6 +108,9 @@ const AccountManager = () => {
       }, 5000);
     }
   }, [message]);
+  const accountManagerName = user?.Account_Manager?.name || 'Default Name'; // Provide a default name if null
+
+
   return (
     <>
         <AppBar />
@@ -107,7 +126,7 @@ const AccountManager = () => {
               <h3 className="mb-3">Your account manager</h3>
               <p className="mb-2">
                 Your account manager is{" "}
-                <span className="fw-bold">{user.Account_Manager.name}</span>,
+                <span className="fw-bold">{accountManagerName}</span>,
                 who will be your one point of contact, if you have any queries,
                 you can call or chat with him.
               </p>

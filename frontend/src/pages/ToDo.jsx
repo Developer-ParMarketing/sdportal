@@ -4,9 +4,22 @@ import { FaReply, FaTimes } from "react-icons/fa";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import AppBar from "../components/AppBar";
+import { useNavigate } from "react-router-dom";
 
 const ToDo = () => {
   const { url, user, getToken } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect if user is not active
+    if (user?.Account_Status !== "Active") {
+      console.log("User is not authorized to view this page.");
+      navigate("/registrationfflow"); // Redirect to registration flow if not active
+    } else if (user?.paymentStatus === "paid") {
+      // If user has paid, redirect to the Hold page and prevent further navigation
+      navigate("/hold");
+    }
+  }, [user, navigate]);
   //
   const [entries, setEntries] = useState([]);
   const [loading, setloading] = useState(true);
