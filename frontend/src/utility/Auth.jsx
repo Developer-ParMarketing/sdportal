@@ -25,6 +25,13 @@ const Auth = ({ Component }) => {
       navigate("/login", { replace: true });
       return;
     }
+    console.log(user?.Account_Status);
+    
+    if (user?.Account_Status === "Inactive") {
+      // If user is not logged in, redirect to login
+      navigate("/login", { replace: true });
+      return;
+    }
 
     // Fetch token and payment status
     let token = await getToken();

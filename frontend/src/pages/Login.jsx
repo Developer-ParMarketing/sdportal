@@ -286,7 +286,24 @@ const Login = () => {
     }
 
     // Check account status and mobile number
-    if (
+    // if (
+    //   userData?.Account_Status === "Active" &&
+    //   userData?.Phone_Number === mobile
+    // ) {
+    //   console.log("Navigating to home page");
+    //   navigate("/"); // Redirect to home page
+    // } else if (userData?.Account_Status === "Enrolled") {
+    //   console.log("Account is enrolled, navigating based on steps");
+
+
+
+    if (userData?.Account_Status === "Inactive") {
+      console.error("Account is inactive. Access denied.");
+      setMessage("Your account is inactive. Please contact support."); // Display an error message
+      // Optionally, redirect to a different page, e.g., a support page or login page
+      navigate("/login"); // Redirect to support or another appropriate page
+      return; // Prevent further actions
+    } else if (
       userData?.Account_Status === "Active" &&
       userData?.Phone_Number === mobile
     ) {
@@ -294,8 +311,13 @@ const Login = () => {
       navigate("/"); // Redirect to home page
     } else if (userData?.Account_Status === "Enrolled") {
       console.log("Account is enrolled, navigating based on steps");
+      // Proceed with your logic for enrolled users
+      // Ensure payment status is available before navigating
+      const status = await fetchPaymentStatusFromZoho(token); // Fetch payment status
+    
 
-      // Log the current account status
+
+    // Log the current account status
       console.log("Account is enrolled status:", userData.Account_Status);
 
       // Ensure payment status is available
