@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Hishweta from "../components/Hishweta";
 import Usernavbar from "../components/Usernavbar";
 import "aos/dist/aos.css"; // Import AOS CSS
@@ -11,11 +11,13 @@ import {
   Imgfive,
   Imgsix,
 } from "../assets/images/index";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Offer = () => {
   const location = useLocation(); // Get the current location and data passed from the Card component
   const navigate = useNavigate(); // Hook to navigate programmatically
+  const { url, user, getToken } = useContext(AppContext);
 
   // Retrieve data from location state or localStorage as fallback
   const { title, emi, oneTimeFee } = location.state || {};
@@ -169,7 +171,62 @@ const Offer = () => {
           heading={"Hi! I'm Shweta"}
           paragraph={"Explore the Benefits You'll Gain with Our App"}
         />
-        <div className="maindiv" style={mainDivStyle}>
+         {user?.Enroll_Payment_Status === "Paid" ? (<>
+            {" "}
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "50px", // Increased top margin
+                padding: "30px",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "12px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                maxWidth: "500px",
+                margin: "0 auto", // Center align horizontally
+                zIndex: "-1px",
+              }}
+              className="maindiv my-5"
+            >
+              <h2
+                style={{
+                  color: "#28a745",
+                  fontSize: "28px",
+                  fontWeight: "bold",
+                }}
+              >
+                🎉 Payment Successful!
+              </h2>
+              <p style={{ color: "#555", fontSize: "16px", margin: "20px 0" }}>
+                Your payment has been completed successfully. You’re one step
+                closer to financial freedom!
+              </p>
+              <Link to="/hold">
+                <button
+                  style={{
+                    padding: "12px 24px",
+                    fontSize: "16px",
+                    color: "#fff",
+                    backgroundColor: "#28a745",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                    transition: "background-color 0.3s",
+                  }}
+                  className="procBtn"
+                  onMouseEnter={(e) =>
+                    (e.target.style.backgroundColor = "#218838")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.target.style.backgroundColor = "#28a745")
+                  }
+                >
+                  Go to Hold Page
+                </button>
+              </Link>
+            </div>
+          </>):(<>
+          <div className="maindiv" style={mainDivStyle}>
           <h1 style={headerStyle}>OFFERS</h1>
 
           <div className="offers-grid ">
@@ -209,6 +266,8 @@ const Offer = () => {
             </button>
           </div>
         </div>
+         </>)}
+       
       </div>
 
       {/* Additional CSS */}
