@@ -3,12 +3,25 @@ import { FaLink, FaTimes } from "react-icons/fa";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { AppContext } from "../context/AppContext";
 import Loading from "../components/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AppBar from "../components/AppBar";
 
 const MakePayment = () => {
   const { url, user, getToken } = useContext(AppContext);
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect if user is not active
+    if (user?.Account_Status !== "Active") {
+      console.log("User is not authorized to view this page.");
+      navigate("/registrationfflow"); // Redirect to registration flow if not active
+    } else if (user?.paymentStatus === "paid") {
+      // If user has paid, redirect to the Hold page and prevent further navigation
+      navigate("/hold");
+    }
+  }, [user, navigate]);
   //
   const [loading, setLoading] = useState(true);
   const [payments, setPayments] = useState([]);
