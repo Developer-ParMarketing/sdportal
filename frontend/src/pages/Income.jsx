@@ -127,14 +127,14 @@ const Income = () => {
                     <h1 style={headerStyle} className="mt-4">Your Income & Expenses</h1>
                     <form style={formStyle} onSubmit={handleSubmit}>
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Total Income per month"
                             style={inputStyle}
                             ref={incomeRef} 
                             required
                         />
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Total monthly expenses for daily needs"
                             style={inputStyle}
                             ref={expensesRef} 
