@@ -11,9 +11,11 @@ import { toast } from "react-toastify";
 const PaymentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { url, getToken } = useContext(AppContext);
+  const { url, getToken ,user} = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+
+  
 
   // Fetch the data from location or localStorage
   const {
@@ -271,7 +273,65 @@ const PaymentPage = () => {
             heading={"Hi! I'm Shweta"}
             paragraph={"Join us today for just ₹599 and begin your journey!"}
           />
-          <h1 style={{}} className="maindiv">
+           {user?.Enroll_Payment_Status === "Paid" ? (<>
+            <>
+            {" "}
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "50px", // Increased top margin
+                padding: "30px",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "12px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                maxWidth: "500px",
+                margin: "0 auto", // Center align horizontally
+                zIndex: "-1px",
+              }}
+              className="maindiv my-5"
+            >
+              <h2
+                style={{
+                  color: "#28a745",
+                  fontSize: "28px",
+                  fontWeight: "bold",
+                }}
+              >
+                🎉 Payment Successful!
+              </h2>
+              <p style={{ color: "#555", fontSize: "16px", margin: "20px 0" }}>
+                Your payment has been completed successfully. You’re one step
+                closer to financial freedom!
+              </p>
+              <Link to="/hold">
+                <button
+                  style={{
+                    padding: "12px 24px",
+                    fontSize: "16px",
+                    color: "#fff",
+                    backgroundColor: "#28a745",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                    transition: "background-color 0.3s",
+                  }}
+                  className="procBtn"
+                  onMouseEnter={(e) =>
+                    (e.target.style.backgroundColor = "#218838")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.target.style.backgroundColor = "#28a745")
+                  }
+                >
+                  Go to Hold Page
+                </button>
+              </Link>
+            </div>
+          </>
+           </>):(
+            <>
+            <h1 style={{}} className="maindiv">
             {/* remove */}
             {/* remove */}
             Get Started Today for Just {oneTimeFee}!
@@ -479,7 +539,8 @@ const PaymentPage = () => {
                 </Link>
               )}
             </div>
-          </div>
+          </div></>)}
+         
         </div>
       </div>
     </>
