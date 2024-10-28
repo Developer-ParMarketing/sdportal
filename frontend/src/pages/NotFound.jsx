@@ -56,7 +56,7 @@ const NotFound = () => (
                 width:'100%'
               }}
             >
-              Back to Home
+              BACK TO HOME
             </button>
           </Link>
         </div>
