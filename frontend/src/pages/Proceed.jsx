@@ -203,68 +203,158 @@ const Proceed = () => {
                 Your Unsecured Debts & Type of Harassment
               </h1>
               <form style={formStyle} onSubmit={handleSubmit}>
-                <input
-                  type="number"
-                  placeholder="Number of unsecured creditors"
-                  style={inputStyle}
-                  ref={unsecuredCreditorsRef}
-                  required
-                />
-                <input
-                  type="number"
-                  placeholder="Total unsecured debts"
-                  style={inputStyle}
-                  ref={totalDebtsRef}
-                  required
-                />
-                <input
-                  type="number"
-                  placeholder="Total EMI for unsecured debts"
-                  style={inputStyle}
-                  ref={totalEMIRef}
-                  required
-                />
-                <select
-                  style={inputStyle}
-                  ref={harassmentTypeRef}
-                  required
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Select type of harassment
-                  </option>
-                  {harassmentOptions
-                    .filter((option) => option.value) // Filter out the first placeholder option from the array
-                    .map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                </select>
+                <div style={{ position: "relative", marginBottom: "10px" }}>
+                  <input
+                    type="number"
+                    placeholder="Number of unsecured creditors"
+                    style={inputStyle}
+                    ref={unsecuredCreditorsRef}
+                    required
+                  />
+                  <span className="tooltip-icon">
+                   <span style={{fontWeight:'bold'}}> i</span>
+                    <span className="tooltip-text">
+                    Please provide the total number of credit cards and personal loans you have.
+                    </span>
+                  </span>
+                </div>
 
-                <select
-                  style={inputStyle}
-                  ref={legalActionRef}
-                  required
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Select type of legal action
-                  </option>
-                  {legalActionOptions
-                    .filter((option) => option.value) // Filter out the first placeholder option from the array
-                    .map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                </select>
+                <div style={{ position: "relative", marginBottom: "10px" }}>
+                  <input
+                    type="number"
+                    placeholder="Total unsecured debts"
+                    style={inputStyle}
+                    ref={totalDebtsRef}
+                    required
+                  />
+                  <span className="tooltip-icon">
+                  <span style={{fontWeight:'bold'}}> i</span>
+                    <span className="tooltip-text">
+                    Enter the total amount of debt currently outstanding on all your credit cards and personal loans.
+                    </span>
+                  </span>
+                </div>
+
+                <div style={{ position: "relative", marginBottom: "10px" }}>
+                  <input
+                    type="number"
+                    placeholder="Total EMI for unsecured debts"
+                    style={inputStyle}
+                    ref={totalEMIRef}
+                    required
+                  />
+                  <span className="tooltip-icon">
+                  <span style={{fontWeight:'bold'}}> i</span>
+                    <span className="tooltip-text">
+                    The total monthly EMI required for all unsecured debts, including credit cards and personal loans.
+                    </span>
+                  </span>
+                </div>
+
+                <div style={{ position: "relative", marginBottom: "10px" }}>
+                  <select
+                    style={inputStyle}
+                    ref={harassmentTypeRef}
+                    required
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select type of harassment
+                    </option>
+                    {harassmentOptions
+                      .filter((option) => option.value) // Filter out the first placeholder option from the array
+                      .map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                  </select>
+                  <span className="tooltip-icon">
+                  <span style={{fontWeight:'bold'}}> i</span>
+                    <span className="tooltip-text">
+                    Describe the type(s) of harassment you are facing from creditors (e.g., repeated phone calls, messages, unannounced visits). Include all relevant forms of harassment.
+                    </span>
+                  </span>
+                </div>
+                <div style={{ position: "relative", marginBottom: "10px" }}>
+                  <select
+                    style={inputStyle}
+                    ref={legalActionRef}
+                    required
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select type of legal action
+                    </option>
+                    {legalActionOptions
+                      .filter((option) => option.value) // Filter out the first placeholder option from the array
+                      .map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                  </select>
+                  <span className="tooltip-icon">
+                  <span style={{fontWeight:'bold'}}> i</span>
+                    <span className="tooltip-text">
+                      Provide details of any legal actions taken against you by creditors (e.g., legal notices, arbitration, court hearings, bounced cheques, etc.).
+                    </span>
+                  </span>
+                </div>
                 {/*  */}
 
                 {/*  */}
                 <button type="submit" className="procBtn" style={buttonStyle}>
                   Submit
                 </button>
+
+                <style jsx>{`
+                  .tooltip-icon {
+                    display: inline-block;
+                    background-color: #ddd;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    text-align: center;
+                    font-size: 14px;
+                    cursor: pointer;
+                    position: absolute;
+                    right: -30px; /* Adjust as needed */
+                    top: 10px; /* Center vertically with the input */
+                  }
+
+                  .tooltip-text {
+                    visibility: hidden;
+                    background-color: #555;
+                    color: #fff;
+                    text-align: center;
+                    padding: 5px;
+                    border-radius: 5px;
+                    position: absolute;
+                    z-index: 1;
+                    bottom: 125%; /* Position above the icon */
+                    left: 50%;
+                    margin-left: -60px; /* Center the tooltip */
+                    width: 120px; /* Tooltip width */
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                  }
+
+                  .tooltip-icon:hover .tooltip-text {
+                    visibility: visible;
+                    opacity: 1;
+                  }
+
+                  .tooltip-icon:hover {
+                    color: blue; /* Optional: Change color on hover */
+                  }
+                  input {
+                    width: 100%;
+                  }
+                  select {
+                    width: 100%;
+                  }
+                `}</style>
               </form>
             </div>
           </>

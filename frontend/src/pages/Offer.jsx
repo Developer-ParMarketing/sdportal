@@ -267,14 +267,20 @@ const Offer = () => {
                       <div className="col-12 col-md-6 col-lg-6 ">
                         <div
                           style={{
-                            fontSize: "20px",
-                            color: "red",
+                            color: "#ff4855", // Heading color red
+                            fontSize: "24px",
                             fontWeight: "bold",
                           }}
                         >
                           Boost Your Credit Score
                         </div>
-                        <div className="py-3">
+                        <div
+                          className="py-3"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "normal", // Normal font weight for text
+                          }}
+                        >
                           Enroll in our Debt Management Plan (DMP) to improve
                           your credit score, without affecting your credit
                           report like loan settlements do.
@@ -290,14 +296,20 @@ const Offer = () => {
                       <div className="col-12 col-md-6 col-lg-6">
                         <div
                           style={{
-                            fontSize: "20px",
-                            color: "red",
+                            color: "#ff4855", // Heading color red
+                            fontSize: "24px",
                             fontWeight: "bold",
                           }}
                         >
                           Access to Future Loans
                         </div>
-                        <div className="py-3">
+                        <div
+                          className="py-3"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "normal", // Normal font weight for text
+                          }}
+                        >
                           Completing your DMP strengthens your credit profile,
                           making you eligible for future loans.
                         </div>
@@ -318,14 +330,20 @@ const Offer = () => {
                       <div className="col-12 col-md-6 col-lg-6">
                         <div
                           style={{
-                            fontSize: "20px",
-                            color: "red",
+                            color: "#ff4855", // Heading color red
+                            fontSize: "24px",
                             fontWeight: "bold",
                           }}
                         >
                           Shield from Creditor Harassment & Legal Protection
                         </div>
-                        <div className="py-3">
+                        <div
+                          className="py-3"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "normal", // Normal font weight for text
+                          }}
+                        >
                           We handle all creditor communications and legal
                           matters, including harassment, notices, arbitration,
                           and court representation, keeping you protected 24/7.
@@ -341,14 +359,20 @@ const Offer = () => {
                       <div className="col-12 col-md-6 col-lg-6">
                         <div
                           style={{
-                            fontSize: "20px",
-                            color: "red",
+                            color: "#ff4855", // Heading color red
+                            fontSize: "24px",
                             fontWeight: "bold",
                           }}
                         >
                           Personalized Financial Support
                         </div>
-                        <div className="py-3">
+                        <div
+                          className="py-3"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "normal", // Normal font weight for text
+                          }}
+                        >
                           Get a dedicated relationship manager for customized
                           budgeting and financial advice.
                         </div>
@@ -368,14 +392,20 @@ const Offer = () => {
                       <div className="col-12 col-md-6 col-lg-6">
                         <div
                           style={{
-                            fontSize: "20px",
-                            color: "red",
+                            color: "#ff4855", // Heading color red
+                            fontSize: "24px",
                             fontWeight: "bold",
                           }}
                         >
                           Real-Time Tracking
                         </div>
-                        <div className="py-3">
+                        <div
+                          className="py-3"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "normal", // Normal font weight for text
+                          }}
+                        >
                           Track your payment progress in real time through our
                           app and online portal.
                         </div>

@@ -1273,6 +1273,7 @@ const TermsConditions = () => {
               id="termsCheckbox"
               checked={isChecked}
               onChange={handleCheckboxChange}
+              style={{border:'2px solid black'}}
             />
             <label
               className="form-check-label"
