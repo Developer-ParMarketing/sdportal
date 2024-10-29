@@ -98,6 +98,11 @@
   .header {
     display: flex;
     justify-content: baseline;
+  }  
+  .header1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .icon {

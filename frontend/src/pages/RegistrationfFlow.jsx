@@ -10,6 +10,9 @@ import Shweta from "../assets/images/Advocate.jpg";
 import Hishweta from "../components/Hishweta";
 import LottieAnimation from "../assets/LottieAnimation";
 import { AppContext } from "../context/AppContext";
+import imageone from '../assets/images/1.png'
+import imagetwo from '../assets/images/2.png'
+import imagethree from '../assets/images/3.png'
 
 const RegistrationFlow = () => {
   const { url, getToken, user } = useContext(AppContext);
@@ -72,31 +75,21 @@ const RegistrationFlow = () => {
                 {
                   step: 1,
                   // icon:  <LottieAnimation />,
-                  icon: (
-                    <FaFileAlt style={{ color: "red", fontSize: "54px" }} />
-                  ),
+                  icon: imageone,
                   title: "Share Your Debts and Type of Harassment",
                   description:
                     "Provide us with information about the type of harassment and your current debts. This helps us understand your situation and tailor the best legal and debt solution that fits your needs.",
                 },
                 {
                   step: 2,
-                  icon: (
-                    <RiSecurePaymentFill
-                      style={{ color: "blue", fontSize: "54px" }}
-                    />
-                  ),
+                  icon: imagethree,
                   title: "Outline your Income and Expenses",
                   description:
                     "Tell us about your income and monthly expenditures. This will allow us to assess your financial landscape and identify the best options for you.",
                 },
                 {
                   step: 3,
-                  icon: (
-                    <MdVerifiedUser
-                      style={{ color: "green", fontSize: "54px" }}
-                    />
-                  ),
+                  icon: imagetwo,
                   title: "Harassment and Debt Solutions",
                   description:
                     "Based on the information you provide, we will present personalized solutions to stop harassments and debt designed to help you regain control and achieve financial stability.",
@@ -115,7 +108,9 @@ const RegistrationFlow = () => {
                   </div>
                   <div className="stepcard">
                     <div className="header">
-                      <div className="icon">{icon}</div>
+                      <div className="icon">
+                        <img src={icon} alt="" style={{width:'80px'}} />
+                      </div>
                       <div
                         style={{
                           fontSize: "20px",
