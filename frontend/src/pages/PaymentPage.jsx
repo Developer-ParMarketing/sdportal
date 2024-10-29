@@ -416,7 +416,7 @@ const PaymentPage = () => {
                 style={{
                   maxWidth: "400px", // Set a maximum width
                   margin: "0 auto", // Center the list item
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  border: "2px solid white",
                   borderRadius: "8px",
                   backgroundColor: "rgba(255, 255, 255, 0.1)",
                 }}
@@ -440,7 +440,7 @@ const PaymentPage = () => {
                 style={{
                   maxWidth: "400px",
                   margin: "0 auto",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  border: "2px solid white",
                   borderRadius: "8px",
                   backgroundColor: "rgba(255, 255, 255, 0.1)",
                 }}
@@ -469,7 +469,7 @@ const PaymentPage = () => {
                 style={{
                   maxWidth: "400px",
                   margin: "0 auto",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  border: "2px solid white",
                   borderRadius: "8px",
                   backgroundColor: "rgba(255, 255, 255, 0.1)",
                 }}
@@ -496,13 +496,14 @@ const PaymentPage = () => {
                   style={{
                     background: "#ccc",
                     color: "white",
-                    border: "none",
+                    border: "2px solid white",
                     borderRadius: "5px",
                     padding: "10px 20px",
                     fontSize: "1rem",
                     cursor: "not-allowed",
                     display: "block",
                     margin: "20px auto",
+                    fontWeight:'bolder',
                   }}
                 >
                   You are already enrolled
@@ -517,7 +518,7 @@ const PaymentPage = () => {
                     style={{
                       background: "#ff4865",
                       color: "white",
-                      border: "none",
+                      border: "2px solid white",
                       borderRadius: "5px",
                       padding: "10px 20px",
                       fontSize: "1rem",
@@ -525,6 +526,7 @@ const PaymentPage = () => {
                       display: "block",
                       margin: "20px auto",
                       transition: "background 0.3s ease-in-out",
+                      fontWeight:'bolder',
                     }}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.background = "#ff866a")

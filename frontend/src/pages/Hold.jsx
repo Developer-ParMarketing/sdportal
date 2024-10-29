@@ -260,8 +260,9 @@ const Hold = () => {
                     onClick={() => window.location.href = "tel:+912268762605"}
 
                   >
-                    Contact Us 02268762605
+                    Contact Us 
                   </button>
+                  {/* 02268762605 */}
                 </h2>
 
                 {/* <button
