@@ -287,7 +287,7 @@ const Card = ({ title, emi, fee, oneTimeFee, total, unsecured }) => {
           style={{ fontSize: "1.2rem", fontWeight: "bold", margin: "0.5rem 0" }}
         >
           <span>Total:</span>
-          <strong>₹{totalbil}</strong>
+          <strong>₹{Math.round(totalbil)}</strong>
         </div>
         <Link
           to="/offer"
@@ -386,7 +386,7 @@ const CardCarousel = ({ unsecured }) => {
         textTransform: "capitalize",
       }}
     >
-      Select Your Affordable Plan
+      Select Your Affordable Plan Below
     </h1>
 
     {/* Group cards in pairs for desktop, and show individual cards for mobile */}

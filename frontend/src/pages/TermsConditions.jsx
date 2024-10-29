@@ -53,7 +53,7 @@ const TermsConditions = () => {
       <div
         className="container p-2"
         style={{
-          // border: "1px solid #ddd", // Border for the whole section
+          border: "1px solid black", // Border for the whole section
           // borderRadius: "10px", // Rounded corners
           // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a clean look
           // backgroundColor: "#f9f9f9", // Light background color
@@ -81,7 +81,7 @@ const TermsConditions = () => {
           <div
             className="mb-4 p-4"
             style={{
-              border: "1px solid #ddd", // Border for the whole section
+              border: "1px solidblack", // Border for the whole section
               borderRadius: "10px", // Rounded corners
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a clean look
               backgroundColor: "#f9f9f9", // Light background color
@@ -207,7 +207,7 @@ const TermsConditions = () => {
         <div
           className="container mt-5 "
           style={{
-            border: "1px solid #ddd", // Border for the whole section
+            border: "1px solidblack", // Border for the whole section
             borderRadius: "10px", // Rounded corners
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a clean look
             backgroundColor: "#f9f9f9", // Light background color
@@ -1256,143 +1256,15 @@ const TermsConditions = () => {
               </ul>
             </li>
           </ol>
-          {/* confirm brn */}
-          {/* <div className="container mt-4">
-            <div className="text-center">
-              <div className="form-check mb-3">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="termsCheckbox"
-                  checked={isChecked}
-                  onChange={handleCheckboxChange}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="termsCheckbox"
-                  style={{ fontSize: "14px", textAlign: "left" }}
-                >
-                  <p
-                    className="mb-4"
-                    style={{
-                      textAlign: "justify",
-                    }}
-                  >
-                    I confirm that I have read, understand, and agree to be
-                    bound by the terms & conditions of the agreement. I
-                    acknowledge that these services and the fees associated with
-                    the said services have been explained to my full
-                    satisfaction, and that I have no unanswered questions about
-                    the same.
-                  </p>
-                </label>
-              </div>
-
-              <button
-                className="btn btn-danger"
-                style={{
-                  backgroundColor: isChecked ? "#ff4855" : "#d3d3d3", // Red color if checked, grey if not
-                  border: "none",
-                  padding: "10px 20px",
-                  margin: "20px 0px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  borderRadius: "5px",
-                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow
-                  transition: "all 0.3s ease",
-                  cursor: isChecked ? "pointer" : "not-allowed",
-                }}
-                disabled={!isChecked} // Disable button if checkbox is not checked
-                onMouseEnter={(e) =>
-                  isChecked &&
-                  (e.currentTarget.style.backgroundColor = "#e63946")
-                } // Hover effect only when enabled
-                onMouseLeave={(e) =>
-                  isChecked &&
-                  (e.currentTarget.style.backgroundColor = "#ff4855")
-                }
-                onClick={handleConfirmClick} 
-              >
-                Confirm
-              </button>
-            </div>
-          </div> */}
+        
           {/*  */}
         </div>
 
         {/*  */}
 
-        {/* <ol className="tandclist">
-      <li>one</li>
-      <li>
-        two
-        <ol>
-          <li>two.one</li>
-          <li>two.two</li>
-          <li>two.three</li>
-        </ol>
-      </li>
-      <li>
-        three
-        <ol>
-          <li>three.one</li>
-          <li>
-            three.two
-            <ol>
-              <li>three.two.one</li>
-              <li>three.two.two</li>
-            </ol>
-          </li>
-        </ol>
-      </li>
-      <li>four</li>
-    </ol> */}
-
-        {/* <>
-      {termsandconditions.map((item, index) => {
-        return (
-          <div className="bottom-border" key={index} ref={addTC}>
-            <div className="d-flex align-items-lg-center align-items-start justify-content-between gap-2 flex-lg-row flex-column">
-              <div>
-                <h3 className="mb-3">{item.title}</h3>
-                <ul className="list-unstyled">
-                  {item.body.map((item2, index2) => {
-                    return (
-                      <li
-                        className={
-                          index2 === item.body.length - 1 ? "" : "mb-2"
-                        }
-                        key={index2}
-                      >
-                        {item2}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      <div className="bottom-border">
-        <h3 className="mb-3">Contact us</h3>
-        <ul className="list-unstyled">
-          <li>
-            If you have any questions about SingleDebt, online privacy
-            policies or procedures, please email us at:{" "}
-            <a
-              href="info@singledebt.in"
-              className="fw-bold text-decoration-underline"
-            >
-              info@singledebt.in
-            </a>
-          </li>
-        </ul>
+      
       </div>
-    </> */}
-      </div>
-      <div className="container mt-4">
+      <div className="container mt-4 " >
         <div className="text-center">
           <div className="form-check mb-3">
             <input

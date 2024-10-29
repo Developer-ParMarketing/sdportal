@@ -106,7 +106,7 @@ const Description = () => {
       <div className="container p-2 py-4">
         <Hishweta
           heading={"Hi! I'm Shweta"}
-          paragraph={"Harassment and Debt Solutions"}
+          paragraph={" Your Harassment and Debt Solutions"}
         />
         {user?.Enroll_Payment_Status === "Paid" ? (
           <>

@@ -39,10 +39,10 @@ const Offer = () => {
   };
 
   const mainDivStyle = {
-    backgroundColor: "#f9f9f9",
-    padding: "40px",
-    borderRadius: "10px",
-    boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.1)",
+    // backgroundColor: "#f9f9f9",
+    // padding: "40px",
+    // borderRadius: "10px",
+    // boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.1)",
   };
 
   const offerCardStyle = {
@@ -95,8 +95,8 @@ const Offer = () => {
 
   const offerImageStyle = {
     width: "100%",
-    height: "auto",
-    maxHeight: "120px",
+    height: "250px",
+    // maxHeight: "120px",
     objectFit: "contain",
   };
 
@@ -171,7 +171,8 @@ const Offer = () => {
           heading={"Hi! I'm Shweta"}
           paragraph={"Explore the Benefits You'll Gain with Our App"}
         />
-         {user?.Enroll_Payment_Status === "Paid" ? (<>
+        {user?.Enroll_Payment_Status === "Paid" ? (
+          <>
             {" "}
             <div
               style={{
@@ -225,49 +226,179 @@ const Offer = () => {
                 </button>
               </Link>
             </div>
-          </>):(<>
-          <div className="maindiv" style={mainDivStyle}>
-          <h1 style={headerStyle}>OFFERS</h1>
+          </>
+        ) : (
+          <>
+            <div className="maindiv" style={mainDivStyle}>
+              <h1 style={headerStyle}>OFFERS</h1>
 
-          <div className="offers-grid ">
-            {offersData.map((offer, index) => (
-              <div
-                key={index}
-                className="offer-card"
-                style={offerCardStyle}
-                data-aos="fade-up"
-              >
-                <div style={cardFrontStyle}>
-                  <div style={offerImageContainerStyle}>
-                    <img
-                      src={offer.image}
-                      alt={offer.title}
-                      style={offerImageStyle}
-                    />
+              {/* <div className="offers-grid ">
+                {offersData.map((offer, index) => (
+                  <div
+                    key={index}
+                    className="offer-card"
+                    style={offerCardStyle}
+                    data-aos="fade-up"
+                  >
+                    <div style={cardFrontStyle} className="">
+                      <div style={offerImageContainerStyle}>
+                        <img
+                          src={offer.image}
+                          alt={offer.title}
+                          style={offerImageStyle}
+                        />
+                      </div>
+                      <h2 style={offerTitleStyle} className="text-danger">
+                        {offer.title}
+                      </h2>
+                      <p style={offerDescriptionStyle}>{offer.description}</p>
+                    </div>
                   </div>
-                  <h2 style={offerTitleStyle} className="text-danger">
-                    {offer.title}
-                  </h2>
-                  <p style={offerDescriptionStyle}>{offer.description}</p>
+                ))}
+              </div> */}
+
+              <div className=" mx-auto w-full h-screen flex items-center justify-center p-4">
+                <div className=" mx-auto w-full ">
+                  <div className="stepcard ">
+                    <div className="header1 d-flex flex-column flex-md-row align-items-center align-items-md gap-2 gap-md-4">
+                      <div className="icon">
+                        <img src={Imgone} alt="" style={offerImageStyle} />
+                      </div>
+                      <div className="col-12 col-md-6 col-lg-6 ">
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Boost Your Credit Score
+                        </div>
+                        <div className="py-3">
+                          Enroll in our Debt Management Plan (DMP) to improve
+                          your credit score, without affecting your credit
+                          report like loan settlements do.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className=" mx-auto w-full">
+                  <div className="stepcard ">
+                    <div className="header1 d-flex flex-column-reverse flex-md-row align-items-center align-items-md gap-2 gap-md-4">
+                      <div className="col-12 col-md-6 col-lg-6">
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Access to Future Loans
+                        </div>
+                        <div className="py-3">
+                          Completing your DMP strengthens your credit profile,
+                          making you eligible for future loans.
+                        </div>
+                      </div>
+                      <div className="icon">
+                        <img src={Imgtwo} alt="" style={offerImageStyle} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className=" mx-auto w-full">
+                  <div className="stepcard ">
+                    <div className="header1 d-flex flex-column flex-md-row align-items-center align-items-md gap-2 gap-md-4">
+                      <div className="icon">
+                        <img src={Imgfive} alt="" style={offerImageStyle} />
+                      </div>
+                      <div className="col-12 col-md-6 col-lg-6">
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Shield from Creditor Harassment & Legal Protection
+                        </div>
+                        <div className="py-3">
+                          We handle all creditor communications and legal
+                          matters, including harassment, notices, arbitration,
+                          and court representation, keeping you protected 24/7.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className=" mx-auto w-full">
+                  <div className="stepcard ">
+                    <div className="header1 d-flex flex-column-reverse flex-md-row align-items-center align-items-md gap-2 gap-md-4">
+                      <div className="col-12 col-md-6 col-lg-6">
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Personalized Financial Support
+                        </div>
+                        <div className="py-3">
+                          Get a dedicated relationship manager for customized
+                          budgeting and financial advice.
+                        </div>
+                      </div>
+                      <div className="icon">
+                        <img src={Imgthree} alt="" style={offerImageStyle} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className=" mx-auto w-full">
+                  <div className="stepcard ">
+                    <div className="header1 d-flex  flex-column flex-md-row align-items-center align-items-md gap-2 gap-md-4">
+                      <div className="icon">
+                        <img src={Imgsix} alt="" style={offerImageStyle} />
+                      </div>
+                      <div className="col-12 col-md-6 col-lg-6">
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Real-Time Tracking
+                        </div>
+                        <div className="py-3">
+                          Track your payment progress in real time through our
+                          app and online portal.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="mx-auto">
-            {/* <div style={{ marginBottom: "20px", textAlign: "center" }}>
+              <div className="mx-auto">
+                {/* <div style={{ marginBottom: "20px", textAlign: "center" }}>
               {title && <h2>{title} Months Plan</h2>}
               {emi && <p>Monthly EMI: {emi}</p>}
               {oneTimeFee && <p>One Time Fee: ₹{oneTimeFee}</p>}
             </div> */}
 
-            <button style={buttonStyle} onClick={handleContinue}>
-              Continue
-            </button>
-          </div>
-        </div>
-         </>)}
-       
+                <button style={buttonStyle} onClick={handleContinue}>
+                  Continue
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Additional CSS */}

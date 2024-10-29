@@ -1,5 +1,3 @@
-
-
 import React, { useContext, useEffect, useState } from "react";
 import Usernavbar from "../components/Usernavbar";
 import Hishweta from "../components/Hishweta";
@@ -185,17 +183,17 @@ const Hold = () => {
                   </div>
                 )}
 
-                <p
+                {/* <p
                   className="card-text"
                   style={{ fontSize: "1.2rem", margin: "20px 0" }}
                 >
                   Your DMP benefits are now ready to be activated. To start
                   enjoying the benefits, please make your first EMI payment
                   using the link below:
-                </p>
+                </p> */}
 
                 <div className="position-relative">
-                  <a
+                  {/* <a
                     href={paymentLink || "#"}
                     className="btn btn-danger btn-lg d-flex align-items-center justify-content-center"
                     style={{
@@ -208,7 +206,7 @@ const Hold = () => {
                     }}
                   >
                     {paymentLink?"pay Later":"Link is not generated connect with us 02268762605"}
-                  </a>
+                  </a> */}
 
                   {/* Tooltip */}
                   {/* {!paymentLink && (
@@ -232,13 +230,39 @@ const Hold = () => {
                   )} */}
                 </div>
 
-                <p
+                <h2
                   className="text-muted"
-                  style={{ fontSize: "0.9rem", margin: "10px 0" }}
+                  style={{ fontSize: "1.5rem", margin: "10px 0" }}
                 >
-                  This link is valid for <strong>12 hours</strong>, so please
-                  complete your setup before it expires.
-                </p>
+                  Please Contact your financial advisor for further DMP Process{" "}
+                  
+                  <br />{" "}
+                  <button
+                    style={{
+                      padding: "12px 24px",
+                      marginTop:'10px',
+                      fontSize: "16px",
+                      color: "#fff",
+                      backgroundColor: "#28a745",
+                      border: "none",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                      transition: "background-color 0.3s",
+                    }}
+                    className="procBtn"
+                    onMouseEnter={(e) =>
+                      (e.target.style.backgroundColor = "#218838")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.backgroundColor = "#28a745")
+                    }
+                    onClick={() => window.location.href = "tel:+912268762605"}
+
+                  >
+                    Contact Us 02268762605
+                  </button>
+                </h2>
 
                 {/* <button
                   onClick={handlePaymentCompletion}
