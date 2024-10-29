@@ -184,7 +184,8 @@ const Income = () => {
                     position: absolute;
                     z-index: 1;
                     bottom: 125%; /* Position above the icon */
-                    left: 50%;
+                     // left: 50%;
+                    right:100%;
                     margin-left: -60px; /* Center the tooltip */
                     width: 120px; /* Tooltip width */
                     opacity: 0;
