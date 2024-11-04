@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdCheckCircle } from "react-icons/md";
@@ -11,11 +10,9 @@ import { toast } from "react-toastify";
 const PaymentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { url, getToken ,user} = useContext(AppContext);
+  const { url, getToken, user } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
-
-  
 
   // Fetch the data from location or localStorage
   const {
@@ -68,25 +65,24 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://api-enroll.singledebt.in/api/payment/orders",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: oneTimeFee,
-            currency: "INR",
-          }),
-        }
-      );
+      const response = await fetch("https://api-enroll.singledebt.in/api/payment/orders", {
+      // const response = await fetch("http://localhost:8012/api/payment/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: oneTimeFee,
+          currency: "INR",
+        }),
+      });
 
       const orderData = await response.json();
       if (!orderData.id) throw new Error("Failed to create Razorpay order");
 
       const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        key: 'rzp_live_rTeC0Xl72J36OB',
+        // key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Singledebt",
@@ -117,6 +113,11 @@ const PaymentPage = () => {
       setLoading(false);
     }
   };
+
+  console.log("Razorpay Key ID:", process.env.REACT_APP_RAZORPAY_KEY_ID);
+  console.log("All Environment Variables:", process.env);
+  const razorpayKeyId = process.env.REACT_APP_RAZORPAY_KEY_ID;
+  console.log("Razorpay Key ID:", razorpayKeyId);
 
   const handlePaymentSuccess = async (response) => {
     // alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
@@ -273,276 +274,293 @@ const PaymentPage = () => {
             heading={"Hi! I'm Shweta"}
             paragraph={"Join us today for just ₹599 and begin your journey!"}
           />
-           {user?.Enroll_Payment_Status === "Paid" ? (<>
+          {user?.Enroll_Payment_Status === "Paid" ? (
             <>
-            {" "}
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: "50px", // Increased top margin
-                padding: "30px",
-                backgroundColor: "#f9f9f9",
-                borderRadius: "12px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                maxWidth: "500px",
-                margin: "0 auto", // Center align horizontally
-                zIndex: "-1px",
-              }}
-              className="maindiv my-5"
-            >
-              <h2
-                style={{
-                  color: "#28a745",
-                  fontSize: "28px",
-                  fontWeight: "bold",
-                }}
-              >
-                🎉 Payment Successful!
-              </h2>
-              <p style={{ color: "#555", fontSize: "16px", margin: "20px 0" }}>
-                Your payment has been completed successfully. You’re one step
-                closer to financial freedom!
-              </p>
-              <Link to="/hold">
-                <button
+              <>
+                {" "}
+                <div
                   style={{
-                    padding: "12px 24px",
-                    fontSize: "16px",
-                    color: "#fff",
-                    backgroundColor: "#28a745",
-                    border: "none",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
-                    transition: "background-color 0.3s",
+                    textAlign: "center",
+                    marginTop: "50px", // Increased top margin
+                    padding: "30px",
+                    backgroundColor: "#f9f9f9",
+                    borderRadius: "12px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    maxWidth: "500px",
+                    margin: "0 auto", // Center align horizontally
+                    zIndex: "-1px",
                   }}
-                  className="procBtn"
-                  onMouseEnter={(e) =>
-                    (e.target.style.backgroundColor = "#218838")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.target.style.backgroundColor = "#28a745")
-                  }
+                  className="maindiv my-5"
                 >
-                  Go to Hold Page
-                </button>
-              </Link>
-            </div>
-          </>
-           </>):(
+                  <h2
+                    style={{
+                      color: "#28a745",
+                      fontSize: "28px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    🎉 Payment Successful!
+                  </h2>
+                  <p
+                    style={{
+                      color: "#555",
+                      fontSize: "16px",
+                      margin: "20px 0",
+                    }}
+                  >
+                    Your payment has been completed successfully. You’re one
+                    step closer to financial freedom!
+                  </p>
+                  <Link to="/hold">
+                    <button
+                      style={{
+                        padding: "12px 24px",
+                        fontSize: "16px",
+                        color: "#fff",
+                        backgroundColor: "#28a745",
+                        border: "none",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                        transition: "background-color 0.3s",
+                      }}
+                      className="procBtn"
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = "#218838")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor = "#28a745")
+                      }
+                    >
+                      Go to Hold Page
+                    </button>
+                  </Link>
+                </div>
+              </>
+            </>
+          ) : (
             <>
-            <h1 style={{}} className="maindiv">
-            {/* remove */}
-            {/* remove */}
-            Get Started Today for Just {oneTimeFee}!
-          </h1>
-          <ul className=" list-unstyled pt-4">
-            <li className="d-flex align-items-center mb-2">
-              <MdCheckCircle
-                className="text-success me-2"
-                style={{ fontSize: "1.5rem", width: "30px" }}
-              />
-              <span style={{ flex: 1, fontSize: "1rem" }}>
-                Achieve debt freedom within {passedTitle} months.
-              </span>
-            </li>
-            <li className="d-flex align-items-center mb-2">
-              <MdCheckCircle
-                className="text-success me-2"
-                style={{ fontSize: "1.5rem", width: "30px" }}
-              />
-              <span style={{ flex: 1, fontSize: "1rem" }}>
-                Enjoy affordable EMIs—pay only{" "}
-                <strong>
-                  ₹
-                  {paymentStatus
-                    ? Math.round(paymentStatus.Monthly_EMI_Payment)
-                    : ""}
-                </strong>{" "}
-                per month, saving{" "}
-                <strong>
-                  ₹
-                  {Math.abs(
-                    Math.round(
-                      (paymentStatus ? paymentStatus.Income : 0) -
-                        (paymentStatus ? paymentStatus.Expenses : 0) -
-                        (paymentStatus ? paymentStatus.Monthly_EMI_Payment : 0)
-                    )
-                  )}
-                </strong>{" "}
-                {/* <br />
+              <h1 style={{}} className="maindiv">
+                {/* remove */}
+                {/* remove */}
+                Get Started Today for Just {oneTimeFee}!
+              </h1>
+              <ul className=" list-unstyled pt-4">
+                <li className="d-flex align-items-center mb-2">
+                  <MdCheckCircle
+                    className="text-success me-2"
+                    style={{ fontSize: "1.5rem", width: "30px" }}
+                  />
+                  <span style={{ flex: 1, fontSize: "1rem" }}>
+                    Achieve debt freedom within {passedTitle} months.
+                  </span>
+                </li>
+                <li className="d-flex align-items-center mb-2">
+                  <MdCheckCircle
+                    className="text-success me-2"
+                    style={{ fontSize: "1.5rem", width: "30px" }}
+                  />
+                  <span style={{ flex: 1, fontSize: "1rem" }}>
+                    Enjoy affordable EMIs—pay only{" "}
+                    <strong>
+                      ₹
+                      {paymentStatus
+                        ? Math.round(paymentStatus.Monthly_EMI_Payment)
+                        : ""}
+                    </strong>{" "}
+                    per month, saving{" "}
+                    <strong>
+                      ₹
+                      {Math.abs(
+                        Math.round(
+                          (paymentStatus ? paymentStatus.Income : 0) -
+                            (paymentStatus ? paymentStatus.Expenses : 0) -
+                            (paymentStatus
+                              ? paymentStatus.Monthly_EMI_Payment
+                              : 0)
+                        )
+                      )}
+                    </strong>{" "}
+                    {/* <br />
                 {paymentStatus ? paymentStatus.Income : 0} <br />
                 {paymentStatus ? paymentStatus.Expenses : 0} <br />
                 {paymentStatus ? paymentStatus.Monthly_EMI_Payment : 0} <br /> */}
-                compared to your original EMI payments.
-              </span>
-            </li>
+                    compared to your original EMI payments.
+                  </span>
+                </li>
 
-            <li className="d-flex align-items-center mb-2">
-              <MdCheckCircle
-                className="text-success me-2"
-                style={{ fontSize: "1.5rem", width: "30px" }}
-              />
-              <span style={{ flex: 1, fontSize: "1rem" }}>
-                Say goodbye to creditor harassment and regain peace of mind.
-              </span>
-            </li>
-            <li className="d-flex align-items-center">
-              <MdCheckCircle
-                className="text-success me-2"
-                style={{ fontSize: "1.5rem", width: "30px" }}
-              />
-              <span style={{ flex: 1, fontSize: "1rem" }}>
-                Start improving your credit score and be ready to access future
-                loans.
-              </span>
-            </li>
-          </ul>
-          <div
-            className="container mt-5"
-            style={{
-              background: "linear-gradient(to right, #ff866a, #ff4865)",
-              padding: "20px",
-              borderRadius: "10px",
-            }}
-          >
-            <ul
-              className="text-white"
-              style={{ listStyle: "none", padding: 0 }}
-            >
-              {/* Adjusting the width of the list items */}
-              <li
-                className="d-flex align-items-center mb-3 p-2"
+                <li className="d-flex align-items-center mb-2">
+                  <MdCheckCircle
+                    className="text-success me-2"
+                    style={{ fontSize: "1.5rem", width: "30px" }}
+                  />
+                  <span style={{ flex: 1, fontSize: "1rem" }}>
+                    Say goodbye to creditor harassment and regain peace of mind.
+                  </span>
+                </li>
+                <li className="d-flex align-items-center">
+                  <MdCheckCircle
+                    className="text-success me-2"
+                    style={{ fontSize: "1.5rem", width: "30px" }}
+                  />
+                  <span style={{ flex: 1, fontSize: "1rem" }}>
+                    Start improving your credit score and be ready to access
+                    future loans.
+                  </span>
+                </li>
+              </ul>
+              <div
+                className="container mt-5"
                 style={{
-                  maxWidth: "400px", // Set a maximum width
-                  margin: "0 auto", // Center the list item
-                  border: "2px solid white",
-                  borderRadius: "8px",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  background: "linear-gradient(to right, #ff866a, #ff4865)",
+                  padding: "20px",
+                  borderRadius: "10px",
                 }}
               >
-                <p
-                  className="me-2"
-                  style={{ width: "50%", fontWeight: "bold" }}
+                <ul
+                  className="text-white"
+                  style={{ listStyle: "none", padding: 0 }}
                 >
-                  Selected Plan:
-                </p>
-                <span style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}>
-                  {/* {title || "Please Select Your Plan"} Months{" "} */}
-                  {title
-                    ? `${paymentStatus ? paymentStatus.Plan_Type : ""}`
-                    : "Please Select Your Plan"}
-                  {/* Ensure data is always displayed */}
-                </span>
-              </li>
-              <li
-                className="d-flex align-items-center mb-3 p-2"
-                style={{
-                  maxWidth: "400px",
-                  margin: "0 auto",
-                  border: "2px solid white",
-                  borderRadius: "8px",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                <p
-                  className="me-2"
-                  style={{ width: "50%", fontWeight: "bold" }}
-                >
-                  Monthly EMI:
-                </p>
-                <span style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}>
-                  {/* {emi || "Please Select Your Plan"} */}₹
-                  {emi
-                    ? `${
-                        paymentStatus
-                          ? Math.round(
-                              paymentStatus.Monthly_EMI_Payment
-                            ).toLocaleString()
-                          : ""
-                      }`
-                    : "Please Select Your Plan"}
-                </span>
-              </li>
-              <li
-                className="d-flex align-items-center mb-3 p-2"
-                style={{
-                  maxWidth: "400px",
-                  margin: "0 auto",
-                  border: "2px solid white",
-                  borderRadius: "8px",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                <p
-                  className="me-2"
-                  style={{ width: "50%", fontWeight: "bold" }}
-                >
-                  Enrollment Fee:
-                </p>
-                <span style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}>
-                  ₹{oneTimeFee ? `${oneTimeFee}` : "₹599 is enroll fee"}
-                  {/* ₹{oneTimeFee || "599 is Paid"} */}
-                  {/* ₹{oneTimeFee || "Please Select Your Plan"} */}
-                </span>
-              </li>
-            </ul>
-
-            <div>
-              {paymentStatus?.Enroll_Payment_Status?.toLowerCase() ===
-              "paid" ? (
-                <button
-                  disabled
-                  style={{
-                    background: "#ccc",
-                    color: "white",
-                    border: "2px solid white",
-                    borderRadius: "5px",
-                    padding: "10px 20px",
-                    fontSize: "1rem",
-                    cursor: "not-allowed",
-                    display: "block",
-                    margin: "20px auto",
-                    fontWeight:'bolder',
-                  }}
-                >
-                  You are already enrolled
-                </button>
-              ) : (
-                <Link
-                  to="#"
-                  onClick={handlePayment}
-                  style={{ textDecoration: "none" }}
-                >
-                  <button
+                  {/* Adjusting the width of the list items */}
+                  <li
+                    className="d-flex align-items-center mb-3 p-2"
                     style={{
-                      background: "#ff4865",
-                      color: "white",
+                      maxWidth: "400px", // Set a maximum width
+                      margin: "0 auto", // Center the list item
                       border: "2px solid white",
-                      borderRadius: "5px",
-                      padding: "10px 20px",
-                      fontSize: "1rem",
-                      cursor: "pointer",
-                      display: "block",
-                      margin: "20px auto",
-                      transition: "background 0.3s ease-in-out",
-                      fontWeight:'bolder',
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.background = "#ff866a")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.background = "#ff4865")
-                    }
                   >
-                    Enroll now for only ₹
-                    {oneTimeFee ? oneTimeFee : "₹599 enrollment fee"}
-                  </button>
-                </Link>
-              )}
-            </div>
-          </div></>)}
-         
+                    <p
+                      className="me-2"
+                      style={{ width: "50%", fontWeight: "bold" }}
+                    >
+                      Selected Plan:
+                    </p>
+                    <span
+                      style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}
+                    >
+                      {/* {title || "Please Select Your Plan"} Months{" "} */}
+                      {title
+                        ? `${paymentStatus ? paymentStatus.Plan_Type : ""}`
+                        : "Please Select Your Plan"}
+                      {/* Ensure data is always displayed */}
+                    </span>
+                  </li>
+                  <li
+                    className="d-flex align-items-center mb-3 p-2"
+                    style={{
+                      maxWidth: "400px",
+                      margin: "0 auto",
+                      border: "2px solid white",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    }}
+                  >
+                    <p
+                      className="me-2"
+                      style={{ width: "50%", fontWeight: "bold" }}
+                    >
+                      Monthly EMI:
+                    </p>
+                    <span
+                      style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}
+                    >
+                      {/* {emi || "Please Select Your Plan"} */}₹
+                      {emi
+                        ? `${
+                            paymentStatus
+                              ? Math.round(
+                                  paymentStatus.Monthly_EMI_Payment
+                                ).toLocaleString()
+                              : ""
+                          }`
+                        : "Please Select Your Plan"}
+                    </span>
+                  </li>
+                  <li
+                    className="d-flex align-items-center mb-3 p-2"
+                    style={{
+                      maxWidth: "400px",
+                      margin: "0 auto",
+                      border: "2px solid white",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    }}
+                  >
+                    <p
+                      className="me-2"
+                      style={{ width: "50%", fontWeight: "bold" }}
+                    >
+                      Enrollment Fee:
+                    </p>
+                    <span
+                      style={{ flex: 1, fontSize: "1rem", textAlign: "right" }}
+                    >
+                      ₹{oneTimeFee ? `${oneTimeFee}` : "₹599 is enroll fee"}
+                      {/* ₹{oneTimeFee || "599 is Paid"} */}
+                      {/* ₹{oneTimeFee || "Please Select Your Plan"} */}
+                    </span>
+                  </li>
+                </ul>
+
+                <div>
+                  {paymentStatus?.Enroll_Payment_Status?.toLowerCase() ===
+                  "paid" ? (
+                    <button
+                      disabled
+                      style={{
+                        background: "#ccc",
+                        color: "white",
+                        border: "2px solid white",
+                        borderRadius: "5px",
+                        padding: "10px 20px",
+                        fontSize: "1rem",
+                        cursor: "not-allowed",
+                        display: "block",
+                        margin: "20px auto",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      You are already enrolled
+                    </button>
+                  ) : (
+                    <Link
+                      to="#"
+                      onClick={handlePayment}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <button
+                        style={{
+                          background: "#ff4865",
+                          color: "white",
+                          border: "2px solid white",
+                          borderRadius: "5px",
+                          padding: "10px 20px",
+                          fontSize: "1rem",
+                          cursor: "pointer",
+                          display: "block",
+                          margin: "20px auto",
+                          transition: "background 0.3s ease-in-out",
+                          fontWeight: "bolder",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.background = "#ff866a")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.background = "#ff4865")
+                        }
+                      >
+                        Enroll now for only ₹
+                        {oneTimeFee ? oneTimeFee : "₹599 enrollment fee"}
+                      </button>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
