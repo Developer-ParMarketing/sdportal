@@ -14,8 +14,6 @@ import Razorpay from "razorpay";
 dotenv.config();
 const app = express();
 
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,7 +26,6 @@ app.use(
       "https://api-enroll.singledebt.in",
       "http://localhost:3000",
       "https://msg.mtalkz.com",
-      
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
@@ -39,39 +36,37 @@ app.use(
 // connect to database
 connectToDatabase();
 
+// const razorpay = new Razorpay({
+//   key_id: "rzp_live_rTeC0Xl72J36OB	",
+//   // key_id: "rzp_live_cRWp492a6sSYQS",
+//   // key_id: 'rzp_test_i6at6OINiz1V5I',
+//   key_secret: "e96QqM8JNpekJnBXsfch40wg",
+// });
 
 const razorpay = new Razorpay({
-  key_id: 'rzp_test_i6at6OINiz1V5I', 
-  key_secret: 'vdcnj54E9uk3pmbbcS5MTLNH', 
+  key_id: "rzp_live_rTeC0Xl72J36OB",
+  key_secret: "e96QqM8JNpekJnBXsfch40wg",
 });
-
-
 
 
 // Create order route
 app.post("/api/payment/orders", async (req, res) => {
-  console.log('hi');
+  console.log("hi");
   const { amount, currency } = req.body;
   const options = {
     amount: amount * 100, // amount in paise
     currency: currency,
     receipt: "receipt#1",
-    
   };
-  
 
   try {
     const response = await razorpay.orders.create(options);
     res.json(response);
-} catch (error) {
+  } catch (error) {
     console.error("Error creating Razorpay order:", error); // Log the error
     res.status(500).json({ error: "Failed to create order", details: error });
-}
-
+  }
 });
-
-
-
 
 // handle requests/response
 app.use((req, res, next) => {
@@ -82,8 +77,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
-
 
 // generate token
 const generateToken = async () => {
@@ -349,9 +342,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-
-app.js
-
+app.js;
 
 // import express from 'express';
 // import bodyParser from 'body-parser';
@@ -418,7 +409,6 @@ app.js
 //     console.error("Error generating token:", error);
 //   }
 // };
-
 
 // // Schedule token generation every 15 minutes
 // cron.schedule("*/15 * * * *", generateToken);

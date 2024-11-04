@@ -116,6 +116,7 @@ const Login = () => {
           handleLogin(userData, inputs.mobile); // Log the user in with their data
         } else {
           setMessage("No user data found for the provided mobile number.");
+          navigate('/signup')
         }
       } else {
         setMessage("OTP verification failed. Please try again.");
@@ -379,7 +380,7 @@ const Login = () => {
                 Where your financial journey begins towards a debt-free future
               </p>
             </div>
-            <ul className="terms-list">
+            <ul className="d-flex align-items-lg-center align-items-start justify-content-start flex-lg-row flex-column terms-list">
               <li>
                 <Link to="/termsconditions">Term & Conditions</Link>
               </li>
