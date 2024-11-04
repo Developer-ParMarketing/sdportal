@@ -41,7 +41,8 @@ connectToDatabase();
 
 
 const razorpay = new Razorpay({
-  key_id: 'rzp_test_i6at6OINiz1V5I', 
+  key_id: 'rzp_live_cRWp492a6sSYQS', 
+  // key_id: 'rzp_test_i6at6OINiz1V5I', 
   key_secret: 'vdcnj54E9uk3pmbbcS5MTLNH', 
 });
 
