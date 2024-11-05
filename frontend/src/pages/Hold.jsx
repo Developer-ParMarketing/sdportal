@@ -18,11 +18,11 @@ const Hold = () => {
 
   useEffect(() => {
     // Log user's Enroll_Payment_Status for debugging
-    console.log("User Enroll_Payment_Status:", user?.Enroll_Payment_Status);
+    // console.log("User Enroll_Payment_Status:", user?.Enroll_Payment_Status);
     handlePaymentCompletion();
     // Check if the user is active
     if (user?.Account_Status !== "Active") {
-      console.log("User is not authorized to view this page.");
+      // console.log("User is not authorized to view this page.");
       // handleUserStepNavigation();
     } else {
       checkPaymentStatus();
@@ -44,7 +44,7 @@ const Hold = () => {
       const paymentData = response.data.data.find(
         (item) => item.Payment_Number === 1
       );
-      console.log("Payment data:", paymentData);
+      // console.log("Payment data:", paymentData);
 
       // if (user && user.Enroll_Payment_Status === "paid") {
       //   setPaymentStatus("paid");
@@ -65,7 +65,7 @@ const Hold = () => {
     try {
       if (recordId) {
         const apiUrl = `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Invoice_Payment/search?criteria=${recordId}`;
-        console.log(`Fetching invoice payment data from: ${apiUrl}`);
+        // console.log(`Fetching invoice payment data from: ${apiUrl}`);
 
         const response = await axios.get(apiUrl, {
           headers: {
@@ -75,7 +75,7 @@ const Hold = () => {
         });
 
         setInvoicePaymentData(response.data);
-        console.log("Invoice Payment Data:", invoicePaymentData);
+        // console.log("Invoice Payment Data:", invoicePaymentData);
 
         navigate("/hold"); // Navigate to Hold page after fetching data if payment is confirmed
       }
@@ -113,7 +113,7 @@ const Hold = () => {
           setPaymentLink("");
         }
       } else {
-        console.log("No payment data available.");
+        // console.log("No payment data available.");
         setIsButtonEnabled(false);
         setPaymentLink("");
       }

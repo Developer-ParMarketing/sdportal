@@ -85,8 +85,8 @@ const Income = () => {
       const token = await getToken();
       const recordId = localStorage.getItem("recordId");
 
-      console.log(recordId);
-      console.log(token);
+      // console.log(recordId);
+      // console.log(token);
 
       // Make the PUT request to update data in Zoho CRM
       const response = await axios.put(

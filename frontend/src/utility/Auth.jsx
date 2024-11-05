@@ -25,7 +25,7 @@ const Auth = ({ Component }) => {
       navigate("/login", { replace: true });
       return;
     }
-    console.log(user?.Account_Status);
+    // console.log(user?.Account_Status);
     
     if (user?.Account_Status === "Inactive") {
       // If user is not logged in, redirect to login
@@ -84,7 +84,7 @@ const Auth = ({ Component }) => {
     }
     setLoading(false);
   };
-  console.log(user?user.Account_Status:'');
+  // console.log(user?user.Account_Status:'');
 
 
   
@@ -106,8 +106,8 @@ const Auth = ({ Component }) => {
   // Fetch payment status from Zoho
   const fetchPaymentStatusFromZoho = async (token) => {
     const recordId = localStorage.getItem("recordId");
-    console.log("this is ", paymentStatus?.toLowerCase() !== "paid");
-    console.log("this is ", step);
+    // console.log("this is ", paymentStatus?.toLowerCase() !== "paid");
+    // console.log("this is ", step);
 
     if (!recordId) {
       console.error("No record ID found.");
@@ -154,10 +154,10 @@ const Auth = ({ Component }) => {
         {errorStatus && (
           <button className="button" onClick={differentAccount}>
             Login with different account{" "}
-            {console.log(
+            {/* {console.log(
               "this is other data",
               paymentStatus?.Enroll_Payment_Status
-            )}
+            )} */}
           </button>
         )}
       </div>

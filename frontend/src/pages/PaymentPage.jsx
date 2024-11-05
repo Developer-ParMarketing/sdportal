@@ -30,7 +30,7 @@ const PaymentPage = () => {
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [emi, setEmi] = useState(passedEmi || "Please Select Your Plan");
   const [oneTimeFee, setOneTimeFee] = useState(
-    passedOneTimeFee || "Please Select Your Plan"
+    passedOneTimeFee || "599"
   );
   const [calculatedEMI, setCalculatedEMIe] = useState(
     passedCalculatedEMI || "Please Select Your Plan"
@@ -39,9 +39,9 @@ const PaymentPage = () => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    console.log("Passed title:", passedTitle);
-    console.log("Passed EMI:", passedEmi);
-    console.log("Passed One-Time Fee:", passedOneTimeFee);
+    // console.log("Passed title:", passedTitle);
+    // console.log("Passed EMI:", passedEmi);
+    // console.log("Passed One-Time Fee:", passedOneTimeFee);
 
     const paymentStatus = localStorage.getItem("paymentStatus");
     if (paymentStatus === "completed") {
@@ -65,8 +65,8 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://api-enroll.singledebt.in/api/payment/orders", {
-      // const response = await fetch("http://localhost:8012/api/payment/orders", {
+      // const response = await fetch("https://api-enroll.singledebt.in/api/payment/orders", {
+      const response = await fetch("http://localhost:8012/api/payment/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,10 +114,10 @@ const PaymentPage = () => {
     }
   };
 
-  console.log("Razorpay Key ID:", process.env.REACT_APP_RAZORPAY_KEY_ID);
-  console.log("All Environment Variables:", process.env);
+  // console.log("Razorpay Key ID:", process.env.REACT_APP_RAZORPAY_KEY_ID);
+  // console.log("All Environment Variables:", process.env);
   const razorpayKeyId = process.env.REACT_APP_RAZORPAY_KEY_ID;
-  console.log("Razorpay Key ID:", razorpayKeyId);
+  // console.log("Razorpay Key ID:", razorpayKeyId);
 
   const handlePaymentSuccess = async (response) => {
     // alert("Payment successful! Payment ID: " + response.razorpay_payment_id);

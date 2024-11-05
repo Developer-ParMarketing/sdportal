@@ -24,7 +24,7 @@ const RegistrationFlow = () => {
           heading={"Hi! I'm Shweta"}
           paragraph={"Your specialist lawyer in harassment and debt matters"}
         />
-        {console.log(user.Enroll_Payment_Status)}
+        {/* {console.log(user.Enroll_Payment_Status)} */}
         {user?.Enroll_Payment_Status === "Paid" ? (
          <div
          style={{

@@ -87,8 +87,8 @@ const Proceed = () => {
     try {
       const token = await getToken();
       const recordId = localStorage.getItem("recordId");
-      console.log(recordId);
-      console.log(token);
+      // console.log(recordId);
+      // console.log(token);
 
       const response = await axios.put(
         `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/${recordId}`,

@@ -6,6 +6,7 @@ import axios from "axios";
 import googleStore from "../assets/images/Google-Store.webp";
 import appStore from "../assets/images/App-Store.webp";
 import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { url, user, getToken } = useContext(AppContext);
@@ -109,14 +110,26 @@ const Login = () => {
         const userData = res.data?.data?.[0]; // Ensure we get the first record from Zoho
         if (userData) {
           const recordId = userData.id;
-          console.log(recordId);
+          // console.log(recordId);
 
           localStorage.setItem("recordId", recordId); // Store recordId in localStorage
 
           handleLogin(userData, inputs.mobile); // Log the user in with their data
         } else {
-          setMessage("No user data found for the provided mobile number.");
-          navigate('/signup')
+          setMessage(
+            "No user data found for the provided mobile number !.Do Sign Up"
+          );
+          toast.error(
+            "No user data found for the provided mobile number! Do Sign Up",
+            {
+              onClose: () => {
+                // This function will be called after the toast is closed
+                setTimeout(() => {
+                  navigate("/signup"); // Redirect to the signup page after 3 seconds (or whatever duration you want)
+                }, 300); // Adjust the timeout duration as needed (3000 ms = 3 seconds)
+              },
+            }
+          );
         }
       } else {
         setMessage("OTP verification failed. Please try again.");
@@ -269,15 +282,15 @@ const Login = () => {
 
   // workin
   const handleLogin = async (userData, mobile) => {
-    console.log("This is login", userData);
-    console.log("This is mobile", mobile);
+    // console.log("This is login", userData);
+    // console.log("This is mobile", mobile);
 
     // Fetch token and payment status before navigating
     const token = await getToken(); // Fetch the token
     const status = await fetchPaymentStatusFromZoho(token); // Fetch payment status
 
-    console.log("User Data:", userData); // Log user data
-    console.log("Payment Status:", status); // Log the entire payment status
+    // console.log("User Data:", userData); // Log user data
+    // console.log("Payment Status:", status); // Log the entire payment status
 
     // Check if userData is valid
     if (!userData) {
@@ -296,8 +309,6 @@ const Login = () => {
     // } else if (userData?.Account_Status === "Enrolled") {
     //   console.log("Account is enrolled, navigating based on steps");
 
-
-
     if (userData?.Account_Status === "Inactive") {
       console.error("Account is inactive. Access denied.");
       setMessage("Your account is inactive. Please contact support."); // Display an error message
@@ -308,23 +319,21 @@ const Login = () => {
       userData?.Account_Status === "Active" &&
       userData?.Phone_Number === mobile
     ) {
-      console.log("Navigating to home page");
+      // console.log("Navigating to home page");
       navigate("/"); // Redirect to home page
     } else if (userData?.Account_Status === "Enrolled") {
-      console.log("Account is enrolled, navigating based on steps");
+      // console.log("Account is enrolled, navigating based on steps");
       // Proceed with your logic for enrolled users
       // Ensure payment status is available before navigating
       const status = await fetchPaymentStatusFromZoho(token); // Fetch payment status
-    
 
-
-    // Log the current account status
-      console.log("Account is enrolled status:", userData.Account_Status);
+      // Log the current account status
+      // console.log("Account is enrolled status:", userData.Account_Status);
 
       // Ensure payment status is available
       if (status && status.data && status.data.length > 0) {
         const paymentStep = status.data[0].Step; // Get the Step from paymentStatus
-        console.log("Payment Step:", paymentStep); // Log the payment step
+        // console.log("Payment Step:", paymentStep); // Log the payment step
 
         // Navigate based on payment step
         switch (paymentStep) {
@@ -343,16 +352,16 @@ const Login = () => {
         }
       } else {
         // Default action if payment status is not available
-        console.log(
-          "No payment status available, navigating to registration flow"
-        );
+        // console.log(
+        //   "No payment status available, navigating to registration flow"
+        // );
         navigate("/registrationfflow");
       }
     } else if (userData?.Account_Status === "Inactive") {
-      console.log("Account is inactive");
+      // console.log("Account is inactive");
       setMessage("Your account is inactive. Please contact support.");
     } else {
-      console.log("Redirecting to signup page");
+      // console.log("Redirecting to signup page");
       navigate("/signup");
     }
   };
