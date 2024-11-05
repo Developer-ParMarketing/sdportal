@@ -394,7 +394,7 @@ const Login = () => {
                 <Link to="/termsconditions">Term & Conditions</Link>
               </li>
               <li>
-                <a href="https://singledebt.in/privacy-policy" target="_blank">
+                <a href="https://singledebt.in/privacy-policy" target="_blank" rel="noreferrer">
                   Privacy policy
                 </a>
               </li>
@@ -491,6 +491,7 @@ const Login = () => {
                 href="https://play.google.com/store/apps/details?id=com.singledebt&hl=en_IN"
                 target="_blank"
                 className="store-image"
+                rel="noreferrer"
               >
                 <img src={googleStore} className="invert-image" alt="" />
               </a>
@@ -498,6 +499,7 @@ const Login = () => {
                 href="https://apps.apple.com/in/app/singledebt/id6480590793"
                 target="_blank"
                 className="store-image"
+                rel="noreferrer"
               >
                 <img src={appStore} className="invert-image" alt="" />
               </a>
