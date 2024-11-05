@@ -353,6 +353,7 @@ import axios from "axios";
 import googleStore from "../assets/images/Google-Store.webp";
 import appStore from "../assets/images/App-Store.webp";
 import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -378,7 +379,7 @@ const SignUp = () => {
       setMessage("Please fill all fields.");
       return;
     }
-  
+
     try {
       setLoading(true);
       const token = await getToken();
@@ -387,7 +388,7 @@ const SignUp = () => {
         setLoading(false);
         return;
       }
-  
+
       // Search for the lead by mobile number
       const res = await axios.get(
         `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads/search?criteria=(Phone_Number:equals:${inputs.mobile})`,
@@ -398,17 +399,30 @@ const SignUp = () => {
           },
         }
       );
-  
+
       const userData = res.data?.data?.[0];
-  
+
       if (userData) {
-        setMessage("User already exists.");
+        setMessage("User already exists. Please Login");
+
+        toast.info(
+          "User data found for the provided mobile number! Do Login",
+          {
+            onClose: () => {
+              // This function will be called after the toast is closed
+              setTimeout(() => {
+                navigate("/login"); // Redirect to the signup page after 3 seconds (or whatever duration you want)
+              }, 300); // Adjust the timeout duration as needed (3000 ms = 3 seconds)
+            },
+          }
+        );
+
         setLoading(false);
       } else {
         // Creating a new user in Zoho CRM
         const [firstName, ...lastNameParts] = inputs.name.split(" ");
         const lastName = lastNameParts.join(" ");
-  
+
         const data = [
           {
             Phone_Number: inputs.mobile,
@@ -418,7 +432,7 @@ const SignUp = () => {
             Account_Status: "Enrolled",
           },
         ];
-  
+
         const createUserRes = await axios.post(
           `${url}/proxy?url=https://www.zohoapis.in/crm/v2/Leads`,
           data,
@@ -429,10 +443,12 @@ const SignUp = () => {
             },
           }
         );
-  
+
         if (createUserRes.data.data[0].code === "SUCCESS") {
-          setMessage("User created successfully. Please wait, processing your information...");
-  
+          setMessage(
+            "User created successfully. Please wait, processing your information..."
+          );
+
           // Check for userData every second
           const intervalId = setInterval(async () => {
             const checkRes = await axios.get(
@@ -444,7 +460,7 @@ const SignUp = () => {
                 },
               }
             );
-  
+
             const newUserData = checkRes.data?.data?.[0];
             if (newUserData) {
               clearInterval(intervalId); // Stop checking
@@ -463,7 +479,6 @@ const SignUp = () => {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="login-page">

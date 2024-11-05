@@ -51,7 +51,7 @@ const razorpay = new Razorpay({
 
 // Create order route
 app.post("/api/payment/orders", async (req, res) => {
-  console.log("hi");
+  // console.log("hi");
   const { amount, currency } = req.body;
   const options = {
     amount: amount * 100, // amount in paise

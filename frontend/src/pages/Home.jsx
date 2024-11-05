@@ -22,7 +22,7 @@ const Home = () => {
   useEffect(() => {
     // Redirect if user is not active
     if (user?.Account_Status !== "Active") {
-      console.log("User is not authorized to view this page.");
+      // console.log("User is not authorized to view this page.");
       navigate("/registrationfflow"); // Redirect to registration flow if not active
     } else if (user?.paymentStatus === "paid") {
       // If user has paid, redirect to the Hold page and prevent further navigation
